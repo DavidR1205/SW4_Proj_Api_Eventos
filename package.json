@@ -1,0 +1,23 @@
+{
+  "name": "rest_api_eventos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "boostrap": "^2.0.0",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "mysql2": "^3.14.0",
+    "rest_api_eventos": "file:",
+    "sequelize": "^6.37.7"
+  }
+}
