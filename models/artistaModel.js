@@ -20,6 +20,17 @@ class Artista {
             throw error;
         }
     }
+
+    static async crearArtista(nombre_artista, genero_musical) {
+        try {
+            const [artistas] = await db.query('INSERT INTO artista (nombre_artista, genero_muscial) VALUES (?,?)', {nombre_artista, genero_musical});
+            return artistas;
+        } catch (error) {
+            console.error('Error al crear el Artista: ', error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = Artista;
