@@ -8,6 +8,7 @@
 <body>
     <h1>Artistas</h1>
 
+    <a href="/artista/create">Nuevo Artista</a>
     <% if (artistas && artistas.length > 0) { %>
         <table>
             <thead>
@@ -20,10 +21,15 @@
             <tbody>
                 <% artistas.forEach(artista => { %>
                     <tr>
+                        <td><%= artista.id_artista %></td>
                         <td><%= artista.nombre_artista %></td>
                         <td><%= artista.genero_musical %></td>
-                        <td><button>Editar</button></td>
-                        <td><button>Eliminar</button></td>
+                        <td>
+                            <a href="/artista/<%= artista.id_artista %>/edit" title="Editar">Editar</a>
+                            <form action="/artista/<%= artista.id_artista %>?_method=DELETE" method="post">
+                                <button type="submit" title="Eliminar" onclick="confirmarEliminacion(event, 'artista')">Eliminar</button>
+                            </form>
+                        </td>
                     </tr>
                 <% }) %>
             </tbody>
@@ -32,4 +38,12 @@
         <p>No hay artistas disponibles.</p>
     <% } %>
 </body>
+<script> 
+    // Confirmar eliminación
+    function confirmarEliminacion(event, tipo) {
+      if (!confirm(`¿Está seguro que desea eliminar este ${tipo}?`)) {
+        event.preventDefault();
+      }
+    }
+  </script>
 </html>
