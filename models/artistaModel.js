@@ -54,7 +54,7 @@ class Artista {
             const [result] = await pool.query('DELETE FROM artista WHERE id_artista = ?', [id]);
             return result.affectedRows > 0;
         } catch (error) {
-            console.error('Error al eliminar el artistsa: ', error);
+            console.error('Error al eliminar el artista: ', error);
             throw error;
         }
     }
