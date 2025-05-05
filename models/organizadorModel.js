@@ -39,16 +39,17 @@ class Organizador {
         try {
             const { nombre_organizador, tipo_documento, numero_documento, direccion } = organizador;
             const [result] = await pool.query(
-                'UPDATE organizador SET nombre_organizador = ?, tipo_documento = ?, numero_documento = ? WHERE id_organizador = ?',
-                [nombre_organizador, tipo_documento, numero_documento, direccion]
+                'UPDATE organizador SET nombre_organizador = ?, tipo_documento = ?, numero_documento = ?, direccion = ? WHERE id_organizador = ?',
+                [nombre_organizador, tipo_documento, numero_documento, direccion, id]
             );
+            return result.affectedRows > 0;
         } catch (error) {
             console.error('Error al actualizar el artista', error);
             throw error;
         }
     }
 
-    static async eliminarArtista(id) {
+    static async eliminarOrganizador(id) {
         try {
             const [result] = await pool.query('DELETE FROM organizador WHERE id_organizador = ?', [id]);
             return result.affectedRows > 0;
