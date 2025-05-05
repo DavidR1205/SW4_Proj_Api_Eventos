@@ -52,7 +52,7 @@ async function initDb() {
                 departamento_evento VARCHAR(200) NOT NULL,
                 aforo_evento BIGINT NOT NULL,
                 fecha_inicio_evento DATE NOT NULL,
-                fecha_fin_evento DATE NOT NULL,
+                fecha_fin_evento DATE,
                 hora_inicio_evento TIME(0) NOT NULL,
                 hora_apertura TIME(0) NOT NULL,
                 genero_evento VARCHAR(200) NOT NULL,

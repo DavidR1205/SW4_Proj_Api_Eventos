@@ -8,6 +8,7 @@ const methodOverride = require('method-override');
 //Importar RUTAS
 const artistaRouter = require('./routes/artistaRouter');
 const organizadorRouter = require('./routes/organizadorRouter');
+const eventoRouter = require('./routes/eventoRouter');
 
 //Configuracion EJS
 app.set('view engine', 'ejs');
@@ -24,6 +25,7 @@ app.use(methodOverride('_method'));
 //RUTAS
 app.use('/artista', artistaRouter);
 app.use('/organizador', organizadorRouter);
+app.use('/eventos', eventoRouter);
 
 //Ruta Principal
 app.get('/', (req, res) => {
