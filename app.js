@@ -9,6 +9,7 @@ const pool = require('./config/database');
 const artistaRouter = require('./routes/artistaRouter');
 const organizadorRouter = require('./routes/organizadorRouter');
 const eventoRouter = require('./routes/eventoRouter');
+const boletaRouter = require('./routes/boletaRouter');
 const usuarioRouter = require('./routes/usuarioRouter');
 const rolRouter = require('./routes/rolRouter');
 
@@ -30,6 +31,7 @@ app.use(methodOverride('_method'));
 app.use('/artista', artistaRouter);
 app.use('/organizador', organizadorRouter);
 app.use('/eventos', eventoRouter);
+app.use('/boletas', boletaRouter);
 app.use('/usuarios', usuarioRouter);
 app.use('/roles', rolRouter);
 

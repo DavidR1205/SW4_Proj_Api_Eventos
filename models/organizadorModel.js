@@ -44,7 +44,7 @@ class Organizador {
             );
             return result.affectedRows > 0;
         } catch (error) {
-            console.error('Error al actualizar el artista', error);
+            console.error('Error al actualizar el organizador', error);
             throw error;
         }
     }
