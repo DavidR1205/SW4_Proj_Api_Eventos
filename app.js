@@ -4,11 +4,15 @@ const port = 3000;
 const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-
+const pool = require('./config/database');
 //Importar RUTAS
 const artistaRouter = require('./routes/artistaRouter');
 const organizadorRouter = require('./routes/organizadorRouter');
 const eventoRouter = require('./routes/eventoRouter');
+const usuarioRouter = require('./routes/usuarioRouter');
+const rolRouter = require('./routes/rolRouter');
+
+
 
 //Configuracion EJS
 app.set('view engine', 'ejs');
@@ -26,6 +30,8 @@ app.use(methodOverride('_method'));
 app.use('/artista', artistaRouter);
 app.use('/organizador', organizadorRouter);
 app.use('/eventos', eventoRouter);
+app.use('/usuarios', usuarioRouter);
+app.use('/roles', rolRouter);
 
 //Ruta Principal
 app.get('/', (req, res) => {
