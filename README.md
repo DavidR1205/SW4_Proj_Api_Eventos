@@ -2,7 +2,7 @@
 
 Pasos para ejecutar código:
 
-1. Ejecutar los siguientes Comandos en la terminal (verificar de estar ubicado dentro de    la carpeta raíz del proyecto):
+1. Ejecutar los siguientes comandos en la terminal (verificar de estar ubicado dentro de    la carpeta raíz del proyecto):
 
       npm init
 
