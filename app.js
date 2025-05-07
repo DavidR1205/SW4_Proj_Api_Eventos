@@ -5,6 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const pool = require('./config/database');
+
 //Importar RUTAS
 const artistaRouter = require('./routes/artistaRouter');
 const organizadorRouter = require('./routes/organizadorRouter');
@@ -12,8 +13,6 @@ const eventoRouter = require('./routes/eventoRouter');
 const boletaRouter = require('./routes/boletaRouter');
 const usuarioRouter = require('./routes/usuarioRouter');
 const rolRouter = require('./routes/rolRouter');
-
-
 
 //Configuracion EJS
 app.set('view engine', 'ejs');
