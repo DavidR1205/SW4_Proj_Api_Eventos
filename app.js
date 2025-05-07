@@ -13,6 +13,11 @@ const eventoRouter = require('./routes/eventoRouter');
 const boletaRouter = require('./routes/boletaRouter');
 const usuarioRouter = require('./routes/usuarioRouter');
 const rolRouter = require('./routes/rolRouter');
+const compraRouter = require('./routes/compraRouter'); 
+const ventaRouter = require('./routes/ventaRouter');
+
+
+
 
 //Configuracion EJS
 app.set('view engine', 'ejs');
@@ -33,6 +38,8 @@ app.use('/eventos', eventoRouter);
 app.use('/boletas', boletaRouter);
 app.use('/usuarios', usuarioRouter);
 app.use('/roles', rolRouter);
+app.use('/compras', compraRouter); 
+app.use('/ventas', ventaRouter);
 
 //Ruta Principal
 app.get('/', (req, res) => {
