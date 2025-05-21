@@ -1,0 +1,77 @@
+<%- include('../../../partials/admin/header') %>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="ml-4">
+            <%= title %>
+        </h2>
+        <a href="/boletas/create" class="btn btn-success mx-3">
+            Nueva Boleta
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <% if (boletas && boletas.length > 0) { %>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Localidad</th>
+                                <th scope="col">N° Personas</th>
+                                <th scope="col">Evento</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% boletas.forEach(boleta => { %>
+                                <tr>
+                                    <th>
+                                        <%= boleta.id_boleta %>
+                                    </th>
+                                    <td>
+                                        <%= boleta.precio_boleta %>
+                                    </td>
+                                    <td>
+                                        <%= boleta.tipo_boleta %>
+                                    </td>
+                                    <td>
+                                        <%= boleta.localidad_boleta %>
+                                    </td>
+                                    <td>
+                                        <%= boleta.num_personas %>
+                                    </td>
+                                    <td>
+                                        <%= boleta.id_evento %>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/boletas/<%= boleta.id_boleta %>/edit"
+                                                class="btn btn-warning btn-sm mx-1" data-toggle="tooltip"
+                                                title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="/boletas/<%= boleta.id_boleta %>?_method=DELETE"
+                                                method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-danger btn-sm mx-0"
+                                                    data-toggle="tooltip" title="Eliminar"
+                                                    onclick="confirmarEliminacion(event, 'boleta')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <p>No hay boletas disponibles.</p>
+            <% } %>
+        </div>
+    </div>
+</div>
+<%- include('../../../partials/admin/footer', { title }) %>
