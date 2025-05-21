@@ -15,8 +15,7 @@ const usuarioRouter = require('./routes/usuarioRouter');
 const rolRouter = require('./routes/rolRouter');
 const compraRouter = require('./routes/compraRouter'); 
 const ventaRouter = require('./routes/ventaRouter');
-
-
+const indexRouter = require('./routes/indexRouter');
 
 
 //Configuracion EJS
@@ -32,19 +31,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
 //RUTAS
-app.use('/artista', artistaRouter);
-app.use('/organizador', organizadorRouter);
-app.use('/eventos', eventoRouter);
-app.use('/boletas', boletaRouter);
-app.use('/usuarios', usuarioRouter);
-app.use('/roles', rolRouter);
-app.use('/compras', compraRouter); 
-app.use('/ventas', ventaRouter);
+app.use('/', indexRouter);
 
-//Ruta Principal
+//RUTAS ADMIN
+app.use('/admin/artista', artistaRouter);
+app.use('/admin/organizador', organizadorRouter);
+app.use('/admin/eventos', eventoRouter);
+app.use('/admin/boletas', boletaRouter);
+app.use('/admin/usuarios', usuarioRouter);
+app.use('/admin/roles', rolRouter);
+app.use('/admin/compras', compraRouter); 
+app.use('/admin/ventas', ventaRouter);
+
+/*Ruta Principal
 app.get('/', (req, res) => {
-    res.render('index', { title: 'Sistema de Eventos' })
-})
+    res.render('pages/home/index', { title: 'Sistema de Eventos' })
+})*/
 
 //Inicio del servidor
 app.listen(port, () => {

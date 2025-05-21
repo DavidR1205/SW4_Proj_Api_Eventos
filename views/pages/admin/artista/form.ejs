@@ -26,7 +26,7 @@
                         <% } %>
 
                         <form
-                            action="<%= isEditing ? `/artista/${artista.id_artista}?_method=PUT` : '/artista' %>"
+                            action="<%= isEditing ? `/admin/artista/${artista.id_artista}?_method=PUT` : '/admin/artista' %>"
                             method="post">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -46,7 +46,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     <%= isEditing ? 'Actualizar' : 'Guardar' %>
                                 </button>
-                                <a href="/artista" class="btn btn-secondary">
+                                <a href="/admin/artista" class="btn btn-secondary">
                                     Cancelar
                                 </a>
                             </div>

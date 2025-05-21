@@ -4,7 +4,7 @@
             <h2 class="ml-4">
                 <%= title %>
             </h2>
-            <a href="/artista/create" class="btn btn-success mx-3">
+            <a href="/admin/artista/create" class="btn btn-success mx-3">
                 Nuevo Artista
             </a>
         </div>
@@ -36,12 +36,12 @@
                                         </td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
-                                                <a href="/artista/<%= artista.id_artista %>/edit"
+                                                <a href="/admin/artista/<%= artista.id_artista %>/edit"
                                                     class="btn btn-warning btn-sm mx-1" data-toggle="tooltip"
                                                     title="Editar">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <form action="/artista/<%= artista.id_artista %>?_method=DELETE"
+                                                <form action="/admin/artista/<%= artista.id_artista %>?_method=DELETE"
                                                     method="post" class="d-inline">
                                                     <button type="submit" class="btn btn-danger btn-sm mx-0"
                                                         data-toggle="tooltip" title="Eliminar"
