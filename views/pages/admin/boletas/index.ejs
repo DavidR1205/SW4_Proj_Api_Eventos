@@ -4,7 +4,7 @@
         <h2 class="ml-4">
             <%= title %>
         </h2>
-        <a href="/boletas/create" class="btn btn-success mx-3">
+        <a href="/admin/boletas/create" class="btn btn-success mx-3">
             Nueva Boleta
         </a>
     </div>
@@ -48,12 +48,12 @@
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
-                                            <a href="/boletas/<%= boleta.id_boleta %>/edit"
+                                            <a href="admin/boletas/<%= boleta.id_boleta %>/edit"
                                                 class="btn btn-warning btn-sm mx-1" data-toggle="tooltip"
                                                 title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="/boletas/<%= boleta.id_boleta %>?_method=DELETE"
+                                            <form action="/admin/boletas/<%= boleta.id_boleta %>?_method=DELETE"
                                                 method="post" class="d-inline">
                                                 <button type="submit" class="btn btn-danger btn-sm mx-0"
                                                     data-toggle="tooltip" title="Eliminar"

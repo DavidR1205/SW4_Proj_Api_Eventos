@@ -24,7 +24,7 @@
                     <% } %>
 
                     <form
-                        action="<%= isEditing ? `/boletas/${boleta.id_boleta}?_method=PUT` : '/boletas' %>"
+                        action="<%= isEditing ? `admin/boletas/${boleta.id_boleta}?_method=PUT` : '/admin/boletas' %>"
                         method="post">
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -64,7 +64,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <%= isEditing ? 'Actualizar' : 'Guardar' %>
                             </button>
-                            <a href="/boletas" class="btn btn-secondary">
+                            <a href="/admin/boletas" class="btn btn-secondary">
                                 Cancelar
                             </a>
                         </div>

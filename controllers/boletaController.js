@@ -4,8 +4,7 @@ const boletaModel = require('../models/boletaModel');
 exports.listarBoletas = async(req, res) => {
     try {
         const boletas = await boletaModel.obtenerBoletas();
-        res.render(boletas);
-        res.render('boletas/index', {
+        res.render('pages/admin/boletas/index', {
             title: 'Boletas',
             boletas
         })
@@ -19,7 +18,7 @@ exports.listarBoletas = async(req, res) => {
 }
 
 exports.formBoletas = (req, res) => {
-    res.render('boletas/form', {
+    res.render('pages/admin/boletas/form', {
         title: 'Registrar Boleta',
         boleta: {},
         errors: [],
@@ -30,7 +29,7 @@ exports.formBoletas = (req, res) => {
 exports.agregarBoleta = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('boletas/form', {
+        return res.render('pages/admin/boletas/form', {
             title: 'Registrar Boleta',
             boleta: req.body,
             errors: errors.array(),
@@ -40,10 +39,10 @@ exports.agregarBoleta = async (req, res) => {
 
     try {
         await boletaModel.crearBoleta(req.body);
-        res.redirect('/boletas');
+        res.redirect('/admin/boletas');
     } catch (error) {
         console.error(error);
-        res.render('boletas/form', {
+        res.render('pages/admin/boletas/form', {
             title: 'Registrar Boletas',
             boletas: req.body,
             errors: [{message: 'Error al crear la boleta. Revise de nuevo los campos ingresados.'}],
@@ -61,7 +60,7 @@ exports.editarBoleta = async (req, res) => {
                 message: 'Boleta no encontrada'
             });
         }
-        res.render('boletas/form', {
+        res.render('pages/admin/boletas/form', {
             title: 'Editar Boleta',
             boleta,
             errors: [],
@@ -79,7 +78,7 @@ exports.editarBoleta = async (req, res) => {
 exports.actualizarBoleta = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('boleta/form', {
+        return res.render('pages/admin/boleta/form', {
             title: 'Editar Boleta',
             boleta: { ...req.body, id: req.params.id},
             errors: errors.array(),
@@ -96,10 +95,10 @@ exports.actualizarBoleta = async (req, res) => {
             });
             
         }
-        res.redirect('/boletas')
+        res.redirect('/admin/boletas')
     } catch (error) {
         console.error(error);
-        res.render('boletas/form', {
+        res.render('pages/admin/boletas/form', {
             title: 'Editar Boleta',
             boleta: {...req.body, id: req.params.id},
             errors: [{ message: 'Error al actualizar la boleta' }],
@@ -114,7 +113,7 @@ exports.eliminarBoleta = async (req, res) => {
         if (!success) {
             return res.status(404).json( {success: false, message: 'Boleta no encontrada'});
         }
-        res.redirect('/boletas')
+        res.redirect('/admin/boletas')
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error al eliminar la Boleta' });
