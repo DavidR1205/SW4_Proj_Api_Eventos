@@ -33,6 +33,13 @@ exports.agregarEvento = async (req, res) => {
         });
     }
     try {
+        // Si hay imagen cargada, agrega la ruta al cuerpo
+        if (req.file) {
+            req.body.url_image_evento = '/images_eventos/' + req.file.filename;
+        } else {
+            req.body.url_image_evento = null;
+        }
+
         await eventoModel.crearEvento(req.body);
         res.redirect('/admin/eventos');
     } catch (error) {

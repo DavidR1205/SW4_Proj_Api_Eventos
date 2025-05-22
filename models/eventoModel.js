@@ -25,14 +25,14 @@ class Evento {
         try {
             const { nombre_evento, categoria_evento, lugar_evento, ciudad_evento, departamento_evento,
                     aforo_evento, fecha_inicio_evento, fecha_fin_evento, hora_inicio_evento, hora_apertura,
-                    genero_evento, edad_minima, id_artista, id_organizador} = evento;
+                    genero_evento, edad_minima, id_artista, id_organizador, url_image_evento} = evento;
             const [result] = await pool.query(
                 `INSERT INTO evento (nombre_evento, categoria_evento, lugar_evento, ciudad_evento, departamento_evento,
                 aforo_evento, fecha_inicio_evento, fecha_fin_evento, hora_inicio_evento, hora_apertura, genero_evento,
-                edad_minima, id_artista, id_organizador) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)`,
+                edad_minima, id_artista, id_organizador, url_image_evento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? , ?, ?)`,
                 [nombre_evento, categoria_evento, lugar_evento, ciudad_evento, departamento_evento,
                     aforo_evento, fecha_inicio_evento, fecha_fin_evento, hora_inicio_evento, hora_apertura,
-                    genero_evento, edad_minima, id_artista, id_organizador]
+                    genero_evento, edad_minima, id_artista, id_organizador, url_image_evento]
             );
             return result.insertId;
         } catch (error) {

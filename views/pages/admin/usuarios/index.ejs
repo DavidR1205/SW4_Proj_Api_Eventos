@@ -37,7 +37,7 @@
                                     <td><%= usuario.segundo_apellido %></td>
                                     <td><%= usuario.tipo_documento_usuario %></td>
                                     <td><%= usuario.numero_documento_usuario %></td>
-                                    <td><%= usuario.fecha_nacimiento %></td>
+                                    <td> <%= new Date(usuario.fecha_nacimiento).toLocaleDateString('es-ES') %></td>
                                     <td><%= usuario.celular_usuario %></td>
                                     <td><%= usuario.direccion_usuario %></td>
                                     <td><%= usuario.edad_usuario %></td>

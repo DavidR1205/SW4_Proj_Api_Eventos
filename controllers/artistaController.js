@@ -42,7 +42,7 @@ exports.agregarArtista = async (req, res) => {
 
     try {
         await artistaModel.crearArtista(req.body);
-        res.redirect('/artista');
+        res.redirect('/admin/artista');
     } catch (error) {
         console.error(error);
         res.render('artista/form', {
@@ -99,7 +99,7 @@ exports.actualizarArtista = async (req, res) => {
                 message: 'Artista no encontrado'
             });
         }
-        res.redirect('/artista');
+        res.redirect('/admin/artista');
     } catch (error) {
         console.error(error);
         res.render('pages/admin/artista/form', {
@@ -118,7 +118,7 @@ exports.eliminarArtista = async (req, res) => {
         if (!success) {
             return res.status(404).json({ success: false, message: 'Artista no encontrado' });
         }
-        res.redirect('/artista')
+        res.redirect('/admin/artista')
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error al eliminar el Artista' });
