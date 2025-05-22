@@ -22,8 +22,7 @@
                             <% } %>
                                 <form
                                     action="<%= isEditing ? `/admin/eventos/${evento.id_evento}?_method=PUT` : '/admin/eventos' %>"
-                                    method="post"
-                                    enctype="multipart/form-data">
+                                    method="post" enctype="multipart/form-data">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="nombre_evento">Nombre</label>
@@ -102,21 +101,36 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="id_artista">ID Artista</label>
-                                            <input type="number" class="form-control" id="id_artista" name="id_artista"
-                                                value="<%= evento.id_artista || '' %>" required>
+                                            <label for="id_artista">Artista</label>
+                                            <select class="form-control" id="id_artista" name="id_artista" required>
+                                                <option value="">Seleccione un artista</option>
+                                                <% artista.forEach(artistas=> { %>
+                                                    <option value="<%= artistas.id_artista %>"
+                                                        <%=evento.id_artista==artistas.id_artista ? 'selected' : '' %>>
+                                                        <%= artistas.nombre_artista %>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="id_organizador">ID Organizador</label>
-                                            <input type="number" class="form-control" id="id_organizador"
-                                                name="id_organizador" value="<%= evento.id_organizador || '' %>"
+                                            <label for="id_organizador">Organizador</label>
+                                            <select class="form-control" id="id_organizador" name="id_organizador"
                                                 required>
+                                                <option value="">Seleccione un organizador</option>
+                                                <% organizador.forEach(o=> { %>
+                                                    <option value="<%= o.id_organizador %>"
+                                                        <%=evento.id_organizador==o.id_organizador ? 'selected' : '' %>>
+                                                        <%= o.nombre_organizador %>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="url_image_evento">Imagen del Evento</label>
                                         <input type="file" class="form-control-file" id="url_image_evento"
-                                            name="url_image_evento" accept="image/*" value="<%= evento.url_image_evento %>">
+                                            name="url_image_evento" accept="image/*"
+                                            value="<%= evento.url_image_evento %>">
                                     </div>
                                     <div class="form-group d-flex justify-content-between">
                                         <button type="submit" class="btn btn-primary">

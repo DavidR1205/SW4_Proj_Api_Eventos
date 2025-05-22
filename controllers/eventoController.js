@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator');
 const eventoModel = require('../models/eventoModel');
+const artistaModel = require('../models/artistaModel');
+const organizadorModel = require('../models/organizadorModel');
 
 exports.listarEventos = async (req, res) => {
     try {
@@ -13,23 +15,31 @@ exports.listarEventos = async (req, res) => {
     }
 };
 
-exports.formEvento = (req, res) => {
+exports.formEvento = async (req, res) => {
+    const artista = await artistaModel.obtenerArtistas();
+    const organizador = await organizadorModel.obtenerOrganizadores();
     res.render('pages/admin/eventos/form', {
         title: 'Evento',
         evento: {},
         errors: [],
-        isEditing: false
+        isEditing: false,
+        artista,
+        organizador
     });
 };
 
 exports.agregarEvento = async (req, res) => {
+    const artista = await artistaModel.obtenerArtistas();
+    const organizador = await organizadorModel.obtenerOrganizadores();
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.render('pages/admin/eventos/form', {
             title: 'Evento',
             evento: req.body,
             errors: errors.array(),
-            isEditing: false
+            isEditing: false,
+            artista,
+            organizador
         });
     }
     try {
@@ -47,7 +57,9 @@ exports.agregarEvento = async (req, res) => {
             title: 'Evento',
             evento: req.body,
             errors: [{ message: 'Error al crear el evento. Revise los campos.' }],
-            isEditing: false
+            isEditing: false,
+            artista,
+            organizador
         });
     }
 };
@@ -55,6 +67,8 @@ exports.agregarEvento = async (req, res) => {
 exports.editarEvento = async (req, res) => {
     try {
         const evento = await eventoModel.obtenerEventosId(req.params.id);
+        const artista = await artistaModel.obtenerArtistas();
+        const organizador = await organizadorModel.obtenerOrganizadores();
         if (!evento) {
             return res.status(404).render('error', { title: 'Error', message: 'Evento no encontrado' });
         }
@@ -62,7 +76,9 @@ exports.editarEvento = async (req, res) => {
             title: 'Evento',
             evento,
             errors: [],
-            isEditing: true
+            isEditing: true,
+            artista,
+            organizador
         });
     } catch (error) {
         res.status(500).render('error', { title: 'Error', message: 'Error al cargar los datos del evento' });
@@ -70,16 +86,27 @@ exports.editarEvento = async (req, res) => {
 };
 
 exports.actualizarEvento = async (req, res) => {
+    const artista = await artistaModel.obtenerArtistas();
+    const organizador = await organizadorModel.obtenerOrganizadores();
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.render('pages/admin/eventos/form', {
             title: 'Evento',
             evento: { ...req.body, id_evento: req.params.id },
             errors: errors.array(),
-            isEditing: true
+            isEditing: true,
+            artista,
+            organizador
         });
     }
     try {
+        // Si hay imagen cargada, agrega la ruta al cuerpo
+        if (req.file) {
+            req.body.url_image_evento = '/images_eventos/' + req.file.filename;
+        } else {
+            req.body.url_image_evento = null;
+        }
+
         const success = await eventoModel.actualizarEvento(req.params.id, req.body);
         if (!success) {
             return res.status(404).render('error', { title: 'Error', message: 'Evento no encontrado' });
@@ -90,7 +117,9 @@ exports.actualizarEvento = async (req, res) => {
             title: 'Evento',
             evento: { ...req.body, id_evento: req.params.id },
             errors: [{ message: 'Error al actualizar el evento' }],
-            isEditing: true
+            isEditing: true,
+            artista,
+            organizador
         });
     }
 };

@@ -7,7 +7,7 @@ router.get('/', eventoController.listarEventos);
 router.get('/create', eventoController.formEvento);
 router.post('/', upload.single('url_image_evento'), validEvento, eventoController.agregarEvento);
 router.get('/:id/edit', eventoController.editarEvento);
-router.put('/:id', validEvento, eventoController.actualizarEvento);
+router.put('/:id', upload.single('url_image_evento'), validEvento, eventoController.actualizarEvento);
 router.delete('/:id', eventoController.eliminarEvento);
 
 module.exports = router;

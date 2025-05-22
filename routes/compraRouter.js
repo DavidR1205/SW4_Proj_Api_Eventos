@@ -4,6 +4,7 @@ const compraController = require('../controllers/compraController');
 const compraValidator = require('../middlewares/compraValidator');
 
 router.get('/', compraController.listarCompras);
+router.get('/create', compraController.formCompra);
 router.post('/', compraValidator, compraController.agregarCompra);
 router.get('/:id/edit', compraController.editarCompra);
 router.put('/:id', compraValidator, compraController.actualizarCompra); 
