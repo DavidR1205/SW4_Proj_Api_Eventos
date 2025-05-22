@@ -1,0 +1,64 @@
+<%- include('../../partials/home/header') %>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 my-4">
+                <img src="" alt="Imagen evento">
+            </div>
+            <div class="col my-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">
+                        <%= evento.nombre_evento %>
+                            </h2>
+                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                                Ea, numquam impedit neque nam autem ratione omnis ab libero voluptatem.
+                                Praesentium dolores officiis consectetur suscipit veritatis expedita
+                                quibusdam labore quos assumenda?</p>
+
+                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                                Ea, numquam impedit neque nam autem ratione omnis ab libero voluptatem.
+                                Praesentium dolores officiis consectetur suscipit veritatis expedita
+                                quibusdam labore quos assumenda?</p>
+                            <div class="row">
+                                <div class="col">
+                                    <%= new Date(evento.fecha_inicio_evento).toLocaleDateString('es-ES', {
+                                        weekday: 'long' , day: 'numeric' , month: 'long' , year: 'numeric' }) %> , <%=
+                                            evento.hora_inicio_evento %>
+                                </div>
+                                <div class="col">
+                                    <a href=""></a>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-sm-4">
+                <p class="card-text mb-1">Categoria: <%= evento.categoria_evento %></p>
+                <p class="card-text mb-1">Edad Minima: <%= evento.edad_minima %> años</p>
+                <p class="card-text mb-1">Aforo: <%= evento.aforo_evento %></p>
+                <p class="card-text mb-1">Género Musical: <%= evento.genero_evento %></p>
+                <p class="card-text mb-1">Departamento: <%= evento.departamento_evento %></p>
+                <p class="card-text mb-1">Ciudad: <%= evento.ciudad_evento %></p>
+                    
+            </div>
+            <div class="col">
+                <p class="card-text mb-1">Lugar: <%= evento.categoria_evento %></p>
+                <p class="card-text mb-1">Fecha: <%= new Date(evento.fecha_inicio_evento).toLocaleDateString('es-ES', {
+                                            weekday: 'long' , day: 'numeric' , month: 'long' , year: 'numeric' }) %></p>
+                <p class="card-text mb-1">Hora: <%= evento.hora_inicio_evento %></p>
+                <p class="card-text mb-1">Hora Apertura Puertas: <%= evento.hora_apertura %></p>
+            </div>
+            <div class="col">
+                <a href="/" class="btn btn-success">
+                    Comprar Boleta
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include('../../partials/home/footer') %>

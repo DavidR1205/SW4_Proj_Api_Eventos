@@ -10,6 +10,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
+        /*Estilos index principal*/
         html,
         body {
             height: 100%;
@@ -33,6 +34,36 @@
             height: 300px;
             object-fit: cover;
         }
+
+        /*Estilos Nav Bar*/
+        .navbar .nav-link {
+            transition: background-color 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .navbar .nav-link:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /*estilo tarjeta index*/
+        a.card-link {
+            text-decoration: none;
+            /* quita el subrayado */
+            color: inherit;
+            /* mantiene el color original del texto */
+            cursor: pointer;
+        }
+
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: scale(1.03);
+            /* agranda un poquito */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            /* da un efecto de elevación */
+        }
     </style>
 </head>
 
@@ -47,10 +78,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item mx-2">
-                        <a class="nav-link" href="/eventos">Eventos</a>
+                        <a class="nav-link" href="/">Eventos</a>
                     </li>
                     <li class="nav-item mx-2">
                         <a class="nav-link" href="/contacto">Contáctanos</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="/admin/artista">Administrador</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -59,6 +93,12 @@
                     </li>
                     <li class="nav-item mx-2">
                         <a class="nav-link" href="/registrar">Registrarse</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="/">Perfil</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="/">Carrito</a>
                     </li>
                 </ul>
             </div>

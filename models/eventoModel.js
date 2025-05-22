@@ -13,7 +13,7 @@ class Evento {
 
     static async obtenerEventosId(id) {
         try {
-            const [eventos] = await db.query('SELECT * FROM evento WHERE id_evento = ?', {id});
+            const [eventos] = await pool.query('SELECT * FROM evento WHERE id_evento = ?', [id]);
             return eventos[0];
         } catch (error) {
             console.error('Error al obtener informacion de los Eventos por Id: ', error);

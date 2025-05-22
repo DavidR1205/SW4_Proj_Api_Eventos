@@ -57,6 +57,7 @@ async function initDb() {
                 hora_apertura TIME(0) NOT NULL,
                 genero_evento VARCHAR(200) NOT NULL,
                 edad_minima INT,
+                url_image_evento VARCHAR(255),
                 id_artista BIGINT NOT NULL,
                 id_organizador BIGINT NOT NULL,
                 FOREIGN KEY (id_artista) REFERENCES artista(id_artista) ON DELETE RESTRICT,

@@ -35,35 +35,58 @@
         </button>
     </div>
 
-    <div class="card-body">
-        <% if (eventos && eventos.length> 0) {%>
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Lugar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% eventos.forEach(evento=> { %>
-                            <tr>
-                                <th>
-                                <td>
-                                    <%= evento.nombre_evento %>
-                                </td>
-                                <td>
-                                    <%= evento.lugar_evento %>
-                                </td>
-                                </th>
-                            </tr>
-                            <% }) %>
-                    </tbody>
-                </table>
+    <div class="container my-5">
+        <% if (eventos && eventos.length> 0) { %>
+            <div class="mb-4">
+                <input type="text" id="busqueda" class="form-control" placeholder="Buscar eventos por nombre">
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                <% eventos.forEach(evento=> { %>
+                    <div class="col" data-nombre="<%= evento.nombre_evento.toLowerCase() %>">
+                        <a href="/<%= evento.id_evento %>" class="card-link">
+                            <div class="card h-100 text-center card-hover">
+                                <img src="" class="card-img-top" alt="Imagen del evento"
+                                    style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-2">
+                                        <%= evento.nombre_evento %>
+                                    </h5>
+                                    <p class="card-text mb-1"><strong>Lugar:</strong>
+                                        <%= evento.lugar_evento %>
+                                    </p>
+                                    <p class="card-text mb-1"><strong>Ciudad:</strong>
+                                        <%= evento.ciudad_evento %>
+                                    </p>
+                                    <% if (evento.fecha_inicio_evento) { %>
+                                        <p class="card-text mb-0"><strong>Fecha:</strong>
+                                            <%= new Date(evento.fecha_inicio_evento).toLocaleDateString('es-ES') %>
+                                        </p>
+                                        <% } %>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <% }) %>
             </div>
             <% } else { %>
                 <p>No hay eventos disponibles.</p>
                 <% } %>
     </div>
+
+    <script>
+        //FILTRO DE BUSQUEDA
+        const inputBusqueda = document.getElementById('busqueda');
+        const tarjetas = document.querySelectorAll('.row .col');
+
+        inputBusqueda.addEventListener('input', () => {
+            const valor = inputBusqueda.value.toLowerCase();
+
+            tarjetas.forEach(col => {
+                const nombre = col.getAttribute('data-nombre');
+                const visible = nombre.includes(valor);
+                col.style.display = visible ? 'block' : 'none';
+            });
+        });
+    </script>
 
     <%- include('../../partials/home/footer') %>
