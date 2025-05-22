@@ -1,0 +1,50 @@
+<%- include('../../../partials/admin/header') %>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0"><%= isEditing ? 'Editar' : 'Registrar' %> Organizador</h4>
+                </div>
+                <div class="card-body">
+                    <% if (errors && errors.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                <% errors.forEach(error => { %>
+                                    <li><%= error.msg || error.message %></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% } %>
+                    <form action="<%= isEditing ? `/admin/organizador/${organizador.id_organizador}?_method=PUT` : '/admin/organizador' %>" method="post">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nombre_organizador">Nombre</label>
+                                <input type="text" class="form-control" id="nombre_organizador" name="nombre_organizador" value="<%= organizador.nombre_organizador || '' %>" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="tipo_documento">Tipo Documento</label>
+                                <input type="text" class="form-control" id="tipo_documento" name="tipo_documento" value="<%= organizador.tipo_documento || '' %>" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="numero_documento">Número Documento</label>
+                                <input type="number" class="form-control" id="numero_documento" name="numero_documento" value="<%= organizador.numero_documento || '' %>" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="direccion">Dirección</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion" value="<%= organizador.direccion || '' %>" required>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary"><%= isEditing ? 'Actualizar' : 'Guardar' %></button>
+                            <a href="/admin/organizador" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../../partials/admin/footer', { title }) %>

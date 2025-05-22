@@ -1,0 +1,50 @@
+<%- include('../../../partials/admin/header') %>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0"><%= isEditing ? 'Editar' : 'Registrar' %> Venta</h4>
+                </div>
+                <div class="card-body">
+                    <% if (errors && errors.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                <% errors.forEach(error => { %>
+                                    <li><%= error.msg || error.message %></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% } %>
+                    <form action="<%= isEditing ? `/admin/ventas/${venta.id_venta}?_method=PUT` : '/admin/ventas' %>" method="post">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="valor_venta">Valor Venta</label>
+                                <input type="number" class="form-control" id="valor_venta" name="valor_venta" value="<%= venta.valor_venta || '' %>" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fecha_venta">Fecha Venta</label>
+                                <input type="date" class="form-control" id="fecha_venta" name="fecha_venta" value="<%= venta.fecha_venta || '' %>" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="metodo_pago">Método de Pago</label>
+                                <input type="text" class="form-control" id="metodo_pago" name="metodo_pago" value="<%= venta.metodo_pago || '' %>">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="id_compra">ID Compra</label>
+                                <input type="number" class="form-control" id="id_compra" name="id_compra" value="<%= venta.id_compra || '' %>" required>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary"><%= isEditing ? 'Actualizar' : 'Guardar' %></button>
+                            <a href="/admin/ventas" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../../partials/admin/footer', { title }) %>
