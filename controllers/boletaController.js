@@ -14,7 +14,7 @@ exports.listarBoletas = async(req, res) => {
             title: 'Error',
             message: 'Error al cargar las boletas'
         });       
-    }
+    } 
 }
 
 exports.formBoletas = (req, res) => {

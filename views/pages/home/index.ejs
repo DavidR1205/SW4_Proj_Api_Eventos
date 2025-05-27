@@ -6,8 +6,6 @@
                 aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
                 aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner bg-black">
             <div class="carousel-item active">
@@ -53,11 +51,9 @@
                                     <p class="card-text mb-1"><strong>Ciudad:</strong>
                                         <%= evento.ciudad_evento %>
                                     </p>
-                                    <% if (evento.fecha_inicio_evento) { %>
-                                        <p class="card-text mb-0"><strong>Fecha:</strong>
-                                           x
-                                        </p>
-                                        <% } %>
+                                    <p class="card-text mb-1"><strong>Fecha:</strong>
+                                         <%= new Date(evento.fecha_inicio_evento).toLocaleDateString('es-ES')%>
+                                    </p>
                                 </div>
                             </div>
                         </a>

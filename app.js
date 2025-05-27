@@ -5,6 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const pool = require('./config/database');
+const session = require('express-session');
 
 //Importar RUTAS
 const artistaRouter = require('./routes/artistaRouter');
@@ -30,6 +31,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Configuracion para soportar PUT y DELETE en formularios
 app.use(methodOverride('_method'));
 
+//Configuracion Carrito
+app.use(session({
+  secret: 'boletas-secret-key',
+  resave: false,
+  saveUninitialized: true
+}));
+
 //RUTAS
 app.use('/', indexRouter);
 
@@ -52,3 +60,4 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Servidor Corriendo en http://localhost:${port}`);
 })
+

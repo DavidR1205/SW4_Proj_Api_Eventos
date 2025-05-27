@@ -20,10 +20,10 @@ exports.showEventoIndex = async (req, res) => {
     try {
         const evento = await eventoModelIndex.obtenerEventosId(req.params.id);
         if (!evento) {
-            return res.status(400).render('error', {
+            return res.status(400)/*.render('error', {
                 title: 'error',
                 message: 'Evento no encontrado'
-            });
+            });*/
         };
 
         res.render('pages/home/show', {

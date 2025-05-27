@@ -1,0 +1,48 @@
+<%- include('../../partials/home/header') %>
+
+    <div class="container my-5">
+        <h2>Carrito</h2>
+
+        <div class="container my-5">
+            <% if (carrito && carrito.length> 0) { %>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Localidad</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Subtotal</th>
+                            <th>Servicio</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% carrito.forEach(item=> { %>
+                            <tr>
+                                <td>
+                                    <%= item.tipo %>
+                                </td>
+                                <td>
+                                    <%= item.localidad %>
+                                </td>
+                                <td>
+                                    <%= item.cantidad %>
+                                </td>
+                                <td>$<%= item.precio_unitario.toLocaleString('es-CO') %>
+                                </td>
+                                <td>$<%= item.subtotal.toLocaleString('es-CO') %>
+                                </td>
+                                <td>$<%= item.servicio.toLocaleString('es-CO') %>
+                                </td>
+                                <td>$<%= item.total.toLocaleString('es-CO') %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <p>El carrito se encuentra vacio.</p>
+                    <% } %>
+        </div>
+        <%- include('../../partials/home/footer') %>

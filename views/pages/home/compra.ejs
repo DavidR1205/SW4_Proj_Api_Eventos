@@ -1,0 +1,98 @@
+<%- include('../../partials/home/header') %>
+    <div class="container mt-3">
+        <div class="row">
+
+
+            <div class="col-sm-1 my-2">
+                <% if (evento.url_image_evento) { %>
+                    <img src="<%= evento.url_image_evento %>" alt="Imagen del evento" class="img-fluid mb-3" />
+                    <% } %>
+            </div>
+            <div class="col">
+                <h5>
+                    <%= evento.nombre_evento %>
+                </h5>
+                <h6>
+                    <%= new Date(evento.fecha_inicio_evento).toLocaleDateString('es-ES', { weekday: 'long' ,
+                        day: 'numeric' , month: 'long' , year: 'numeric' }) %> , <%= evento.hora_inicio_evento %>
+                </h6>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos illum nihil debitis.
+                    Iure, minima quaerat officiis, sint nostrum, ad fugit animi aliquid maxime accusantium
+                    optio non eos repellat incidunt aspernatur?</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="mb-4">Seleccione sus boletas</h4>
+                <form action="/comprar/agregar" method="POST">
+                    <% if (boletas && boletas.length> 0) { %>
+                        <div class="mb-3">
+                            <label for="id_boleta" class="form-label">Boleta:</label>
+                            <select class="form-select" name="id_boleta" id="id_boleta">
+                                <option value="">Seleccione una boleta</option>
+                                <% boletas.forEach(b=> { %>
+                                    <option value="<%= b.id_boleta %>" data-precio="<%= b.precio_boleta %>">
+                                        <%= b.tipo_boleta %> - <%= b.localidad_boleta %> - $<%= b.precio_boleta %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="cantidad" class="form-label">Cantidad (máx. 3):</label>
+                            <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" max="3"
+                                value="1">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Valor del Servicio:</label>
+                            <input type="text" id="valor_servicio" class="form-control" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Valor de la boleta:</label>
+                            <input type="text" id="valor_boleta" class="form-control" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Valor Total:</label>
+                            <input type="text" id="valor_total" class="form-control" readonly>
+                        </div>
+
+                        <button type="submit" class="btn btn-success my-3">Agregar al carrito</button>
+                </form>
+                <% } else { %>
+                    <p>No hay boletas registradas.</p>
+                    <% } %>
+            </div>
+        </div>
+
+        <script>
+            const selectBoleta = document.getElementById('id_boleta');
+            const inputCantidad = document.getElementById('cantidad');
+            const inputValorBoleta = document.getElementById('valor_boleta');
+            const inputServicio = document.getElementById('valor_servicio');
+            const inputTotal = document.getElementById('valor_total');
+
+            function actualizarTotales() {
+                const selectedOption = selectBoleta.options[selectBoleta.selectedIndex];
+                const precioBoleta = parseFloat(selectedOption.dataset.precio || 0);
+                const cantidad = parseInt(inputCantidad.value || 0);
+
+                const subtotal = precioBoleta * cantidad;
+                const servicio = subtotal * 0.05;
+                const total = subtotal + servicio;
+
+                inputValorBoleta.value = `$${subtotal.toLocaleString('es-CO', { minimumFractionDigits: 2 })}`;
+                inputServicio.value = `$${servicio.toLocaleString('es-CO', { minimumFractionDigits: 2 })}`;
+                inputTotal.value = `$${total.toLocaleString('es-CO', { minimumFractionDigits: 2 })}`;
+            }
+
+            selectBoleta.addEventListener('change', actualizarTotales);
+            inputCantidad.addEventListener('input', actualizarTotales);
+        </script>
+
+        <%- include('../../partials/home/footer') %>
