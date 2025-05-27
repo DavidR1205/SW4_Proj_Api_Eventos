@@ -7,6 +7,11 @@ const methodOverride = require('method-override');
 const pool = require('./config/database');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+
+//Importar validadores
+const loginvalidator = require('./middlewares/loginValidator');
+const authValidator = require('./middlewares/authValidator');
+
 //Importar RUTAS
 const loginRouter = require('./routes/loginRouter');
 const artistaRouter = require('./routes/artistaRouter');
@@ -18,7 +23,7 @@ const rolRouter = require('./routes/rolRouter');
 const compraRouter = require('./routes/compraRouter');
 const ventaRouter = require('./routes/ventaRouter');
 const indexRouter = require('./routes/indexRouter');
-const loginvalidator = require('./middlewares/loginValidator');
+
 
 //Usar las Cookies
 app.use(cookieParser())
@@ -48,7 +53,7 @@ app.use(loginvalidator);
 app.use(loginRouter);
 
 // Middleware para proteger las rutas de admin(jwt)
-app.use('/admin', loginvalidator);
+app.use('/admin', authValidator);
 
 //RUTAS
 app.use('/', indexRouter);
