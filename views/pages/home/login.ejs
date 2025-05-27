@@ -1,0 +1,32 @@
+<%- include('../../partials/home/header') %>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Iniciar Sesión</h4>
+                    <% if (user) { %>
+                        <a href="/logout" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
+                    <% } %>
+                </div>
+                <div class="card-body">
+                    <% if (error) { %>
+                        <div class="alert alert-danger"><%= error %></div>
+                    <% } %>
+                    <form action="/login" method="POST">
+                        <div class="form-group">
+                            <label for="correo_electronico">Correo electrónico</label>
+                            <input type="email" class="form-control" name="correo_electronico" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contrasena">Contraseña</label>
+                            <input type="password" class="form-control" name="contrasena" required>
+                        </div>
+                        <button type="submit" class="btn btn-warning mt-3">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/home/footer') %>

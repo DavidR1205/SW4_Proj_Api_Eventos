@@ -78,9 +78,9 @@ exports.editarBoleta = async (req, res) => {
 exports.actualizarBoleta = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('pages/admin/boleta/form', {
+        return res.render('pages/admin/boletas/form', {
             title: 'Editar Boleta',
-            boleta: { ...req.body, id: req.params.id},
+            boleta: { ...req.body, id_boleta: req.params.id},
             errors: errors.array(),
             isEditing: true
         });
@@ -102,7 +102,7 @@ exports.actualizarBoleta = async (req, res) => {
             title: 'Editar Boleta',
             boleta: {...req.body, id: req.params.id},
             errors: [{ message: 'Error al actualizar la boleta' }],
-            idEditing: true
+            isEditing: true
         });
     }
 };

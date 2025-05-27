@@ -1,9 +1,10 @@
 const pool = require('../config/database');
+const bcrypt = require('bcryptjs');
 
 class Usuario {
     static async obtenerUsuarios() {
         try {
-            const [usuarios] = await pool.query('SELECT * FROM usuarios'); // Cambiado a "usuarios"
+            const [usuarios] = await pool.query('SELECT * FROM usuarios');
             return usuarios;
         } catch (error) {
             console.error('Error al obtener los usuarios:', error);
@@ -13,6 +14,10 @@ class Usuario {
 
     static async crearUsuario(usuario) {
         try {
+            // Encriptar la contraseña antes de guardar
+            if (usuario.contrasena) {
+                usuario.contrasena = await bcrypt.hash(usuario.contrasena, 10);
+            }
             const {
                 primer_nombre,
                 segundo_nombre,
@@ -52,7 +57,7 @@ class Usuario {
 
     static async obtenerUsuarioPorId(id) {
         try {
-            const [usuario] = await pool.query('SELECT * FROM usuarios WHERE id_usuario = ?', [id]); // Cambiado a "usuarios"
+            const [usuario] = await pool.query('SELECT * FROM usuarios WHERE id_usuario = ?', [id]);
             return usuario[0];
         } catch (error) {
             console.error('Error al obtener el usuario por ID:', error);
@@ -62,6 +67,10 @@ class Usuario {
 
     static async actualizarUsuario(id, usuario) {
         try {
+            // Encriptar la contraseña solo si viene en la actualización
+            if (usuario.contrasena) {
+                usuario.contrasena = await bcrypt.hash(usuario.contrasena, 10);
+            }
             const {
                 primer_nombre,
                 segundo_nombre,
@@ -101,10 +110,20 @@ class Usuario {
 
     static async eliminarUsuario(id) {
         try {
-            const [result] = await pool.query('DELETE FROM usuarios WHERE id_usuario = ?', [id]); // Cambiado a "usuarios"
+            const [result] = await pool.query('DELETE FROM usuarios WHERE id_usuario = ?', [id]);
             return result.affectedRows > 0;
         } catch (error) {
             console.error('Error al eliminar el usuario:', error);
+            throw error;
+        }
+    }
+
+    static async obtenerUsuarioPorCorreo(correo_electronico) {
+        try {
+            const [usuario] = await pool.query('SELECT * FROM usuarios WHERE correo_electronico = ?', [correo_electronico]);
+            return usuario[0];
+        } catch (error) {
+            console.error('Error al obtener el usuario por correo:', error);
             throw error;
         }
     }

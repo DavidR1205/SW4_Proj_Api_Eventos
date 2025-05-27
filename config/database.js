@@ -91,7 +91,7 @@ async function initDb() {
                 direccion_usuario VARCHAR(200) NOT NULL,
                 edad_usuario INT NOT NULL,
                 correo_electronico VARCHAR(250) NOT NULL,
-                contrasena VARCHAR(16) NOT NULL,
+                contrasena VARCHAR(100) NOT NULL,
                 id_rol BIGINT NOT NULL,
                 FOREIGN KEY (id_rol) REFERENCES rol(id_rol) ON DELETE RESTRICT
             )ENGINE=InnoDB;

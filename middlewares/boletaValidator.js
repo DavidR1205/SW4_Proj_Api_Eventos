@@ -1,6 +1,12 @@
 const { body } = require('express-validator');
 
 const validBoleta = [
+    body('id_evento')
+        .notEmpty()
+        .withMessage('Debe ingresar el evento al que pertenece la boleta')
+        .isInt()
+        .withMessage('El evento debe ser un número'),
+
     body('precio_boleta')
         .notEmpty()
         .withMessage('Debe ingresar un precio para la boleta')

@@ -12,7 +12,7 @@ class Boleta {
 
     static async obtenerBoletaId(id) {
         try {
-            const [boletas] = await pool.query('SELECT * FROM boletas WHERE id_boleta = ?', {id});
+            const [boletas] = await pool.query('SELECT * FROM boletas WHERE id_boleta = ?', [id]);
             return boletas[0];
         } catch (error) {
             console.error('Error al obtener informacion de la Boleta por Id: ', error);

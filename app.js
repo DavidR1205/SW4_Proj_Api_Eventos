@@ -5,8 +5,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const pool = require('./config/database');
-
+const cookieParser = require('cookie-parser');
 //Importar RUTAS
+const loginRouter = require('./routes/loginRouter');
 const artistaRouter = require('./routes/artistaRouter');
 const organizadorRouter = require('./routes/organizadorRouter');
 const eventoRouter = require('./routes/eventoRouter');
@@ -16,7 +17,9 @@ const rolRouter = require('./routes/rolRouter');
 const compraRouter = require('./routes/compraRouter'); 
 const ventaRouter = require('./routes/ventaRouter');
 const indexRouter = require('./routes/indexRouter');
+const loginvalidator = require('./middlewares/loginvalidator');
 
+app.use(cookieParser())
 
 //Configuracion EJS
 app.set('view engine', 'ejs');
@@ -29,9 +32,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Configuracion para soportar PUT y DELETE en formularios
 app.use(methodOverride('_method'));
+app.use((req, res, next) => {
+    res.locals.user = req.user || null;
+    next();
+});
+app.use(loginRouter);//RUTAS DE LOGIN
+
+app.use('/', indexRouter);
+
+app.use('/admin', loginvalidator);// Middleware para proteger las rutas de admin(jwt)
 
 //RUTAS
-app.use('/', indexRouter);
+
+
 
 //RUTAS ADMIN
 app.use('/admin/artista', artistaRouter);
@@ -43,6 +56,7 @@ app.use('/admin/roles', rolRouter);
 app.use('/admin/compras', compraRouter); 
 app.use('/admin/ventas', ventaRouter);
 
+
 /*Ruta Principal
 app.get('/', (req, res) => {
     res.render('pages/home/index', { title: 'Sistema de Eventos' })
@@ -52,3 +66,4 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Servidor Corriendo en http://localhost:${port}`);
 })
+

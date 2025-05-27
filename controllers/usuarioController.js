@@ -99,3 +99,28 @@ exports.eliminarUsuario = async (req, res) => {
         res.status(500).render('error', { title: 'Error', message: 'Error al eliminar el usuario' });
     }
 };
+
+// Mostrar formulario de registro (home)
+exports.formRegistrar = (req, res) => {
+    res.render('pages/home/registrar', {
+        title: 'Registrar Usuario',
+        errors: [],
+        usuario: {}
+    });
+};
+
+// Procesar registro desde el home
+exports.registrarUsuario = async (req, res) => {
+    try {
+        // Puedes agregar validaciones aquí si lo deseas
+        await usuarioModel.crearUsuario(req.body);
+        // Redirige al login después de registrar
+        res.redirect('/login');
+    } catch (error) {
+        res.render('pages/home/registrar', {
+            title: 'Registrar Usuario',
+            usuario: req.body,
+            errors: [{ message: 'Error al registrar usuario. Revise los campos.' }]
+        });
+    }
+};

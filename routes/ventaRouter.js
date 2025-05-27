@@ -10,5 +10,5 @@ router.post('/', ventaValidator, ventaController.agregarVenta); // Crear una nue
 router.get('/:id', ventaController.editarVenta); // Obtener una venta por ID
 router.put('/:id', ventaValidator, ventaController.actualizarVenta); // Actualizar una venta existente
 router.delete('/:id', ventaController.eliminarVenta); // Eliminar una venta
-
+router.get('/:id/edit', ventaController.editarVenta); // Obtener una venta por ID
 module.exports = router;
