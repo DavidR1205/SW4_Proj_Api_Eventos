@@ -24,7 +24,7 @@
                     <% } %>
 
                     <form
-                        action="<%= isEditing ? `admin/boletas/${boleta.id_boleta}?_method=PUT` : '/admin/boletas' %>"
+                        action="<%= isEditing ? `/admin/boletas/${boleta.id_boleta}?_method=PUT` : '/admin/boletas' %>"
                         method="post">
                         <div class="form-row">
                             <div class="form-group col-md-6">
