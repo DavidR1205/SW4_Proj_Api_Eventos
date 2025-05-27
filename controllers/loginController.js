@@ -9,11 +9,11 @@ exports.showLogin = (req, res) => {
         user: req.user || null // Esto permite que la vista sepa si hay usuario autenticado
     });
 };
+
 exports.login = async (req, res) => {
     const { correo_electronico, contrasena } = req.body;
     try {
         const usuario = await usuarioModel.obtenerUsuarioPorCorreo(correo_electronico);
-        console.log('USUARIO:', usuario); // <-- Aquí sí está definida
         if (!usuario) {
             return res.render('pages/home/login', { error: 'Credenciales inválidas' });
         }
@@ -22,18 +22,24 @@ exports.login = async (req, res) => {
             return res.render('pages/home/login', { error: 'Credenciales inválidas' });
         }
         const token = jwt.sign(
-            { id_usuario: usuario.id_usuario, correo_electronico: usuario.correo_electronico, rol: usuario.id_rol },
+            {
+                id_usuario: usuario.id_usuario,
+                correo_electronico: usuario.correo_electronico,
+                nombre: usuario.primer_nombre,
+                rol: usuario.id_rol
+            },
             JWT_SECRET,
             { expiresIn: '2h' }
         );
         res.cookie('token', token, { httpOnly: true });
-        res.redirect('/admin/usuarios');
+        res.redirect('/');
     } catch (error) {
         console.error(error);
         res.render('pages/home/login', { error: 'Error en el servidor' });
     }
 };
+
 exports.logout = (req, res) => {
     res.clearCookie('token');
-    res.redirect('/login');
+    res.redirect('/');
 };

@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const pool = require('./config/database');
 const session = require('express-session');
-
 const cookieParser = require('cookie-parser');
 //Importar RUTAS
 const loginRouter = require('./routes/loginRouter');
@@ -16,11 +15,12 @@ const eventoRouter = require('./routes/eventoRouter');
 const boletaRouter = require('./routes/boletaRouter');
 const usuarioRouter = require('./routes/usuarioRouter');
 const rolRouter = require('./routes/rolRouter');
-const compraRouter = require('./routes/compraRouter'); 
+const compraRouter = require('./routes/compraRouter');
 const ventaRouter = require('./routes/ventaRouter');
 const indexRouter = require('./routes/indexRouter');
-const loginvalidator = require('./middlewares/loginvalidator');
+const loginvalidator = require('./middlewares/loginValidator');
 
+//Usar las Cookies
 app.use(cookieParser())
 
 //Configuracion EJS
@@ -28,7 +28,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 //Middlewares
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,23 +37,21 @@ app.use(methodOverride('_method'));
 
 //Configuracion Carrito
 app.use(session({
-  secret: 'boletas-secret-key',
-  resave: false,
-  saveUninitialized: true
+    secret: 'boletas-secret-key',
+    resave: false,
+    saveUninitialized: true
 }));
-app.use((req, res, next) => {
-    res.locals.user = req.user || null;
-    next();
-});
-app.use(loginRouter);//RUTAS DE LOGIN
 
-app.use('/', indexRouter);
+app.use(loginvalidator);
 
-app.use('/admin', loginvalidator);// Middleware para proteger las rutas de admin(jwt)
+//RUTAS DE LOGIN
+app.use(loginRouter);
+
+// Middleware para proteger las rutas de admin(jwt)
+app.use('/admin', loginvalidator);
 
 //RUTAS
-
-
+app.use('/', indexRouter);
 
 //RUTAS ADMIN
 app.use('/admin/artista', artistaRouter);
@@ -62,7 +60,7 @@ app.use('/admin/eventos', eventoRouter);
 app.use('/admin/boletas', boletaRouter);
 app.use('/admin/usuarios', usuarioRouter);
 app.use('/admin/roles', rolRouter);
-app.use('/admin/compras', compraRouter); 
+app.use('/admin/compras', compraRouter);
 app.use('/admin/ventas', ventaRouter);
 
 
