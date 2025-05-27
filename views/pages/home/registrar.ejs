@@ -1,10 +1,10 @@
 <%- include('../../partials/home/header') %>
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="card shadow-sm">
+        <div class="col-lg-10">
+            <div class="card shadow">
                 <div class="card-header bg-warning text-dark">
-                    <h4 class="mb-0">Registrar Usuario</h4>
+                    <h4 class="mb-0">Registrar</h4>
                 </div>
                 <div class="card-body">
                     <% if (errors && errors.length > 0) { %>
@@ -17,7 +17,7 @@
                         </div>
                     <% } %>
                     <form action="/registrar" method="POST">
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="primer_nombre">Primer Nombre</label>
                                 <input type="text" class="form-control" id="primer_nombre" name="primer_nombre" required>
@@ -27,7 +27,7 @@
                                 <input type="text" class="form-control" id="segundo_nombre" name="segundo_nombre">
                             </div>
                         </div>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="primer_apellido">Primer Apellido</label>
                                 <input type="text" class="form-control" id="primer_apellido" name="primer_apellido" required>
@@ -37,7 +37,7 @@
                                 <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido">
                             </div>
                         </div>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="tipo_documento_usuario">Tipo Documento</label>
                                 <input type="text" class="form-control" id="tipo_documento_usuario" name="tipo_documento_usuario" required>
@@ -47,7 +47,7 @@
                                 <input type="number" class="form-control" id="numero_documento_usuario" name="numero_documento_usuario" required>
                             </div>
                         </div>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="fecha_nacimiento">Fecha Nacimiento</label>
                                 <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
@@ -57,7 +57,7 @@
                                 <input type="text" class="form-control" id="celular_usuario" name="celular_usuario">
                             </div>
                         </div>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="direccion_usuario">Dirección</label>
                                 <input type="text" class="form-control" id="direccion_usuario" name="direccion_usuario">
@@ -67,7 +67,7 @@
                                 <input type="number" class="form-control" id="edad_usuario" name="edad_usuario">
                             </div>
                         </div>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="correo_electronico">Correo Electrónico</label>
                                 <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" required>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <input type="hidden" id="id_rol" name="id_rol" value="2">
-                        <div class="form-group d-flex justify-content-between">
+                        <div class="form-group d-flex justify-content-between my-5">
                             <button type="submit" class="btn btn-primary">Registrar</button>
                             <a href="/" class="btn btn-secondary">Cancelar</a>
                         </div>

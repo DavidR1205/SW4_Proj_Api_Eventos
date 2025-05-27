@@ -43,3 +43,35 @@ exports.logout = (req, res) => {
     res.clearCookie('token');
     res.redirect('/');
 };
+
+exports.formRegister = (req, res) => {
+    res.render('pages/home/registrar', {
+        errors: [],
+        user: req.user || null // Esto permite que la vista sepa si hay usuario autenticado
+    });
+}
+
+exports.register = async (req, res) => {
+    try {
+        const usuario = req.body;
+
+        const existente = await usuarioModel.obtenerUsuarioPorCorreo(usuario.correo_electronico);
+        if (existente) {
+            return res.render('pages/home/registrar', {
+                errors: [{ msg: 'Ya existe una cuenta registrada con este correo.' }],
+                user: null
+            });
+        }
+
+        await usuarioModel.RegistrarUsuarioIndex(usuario);
+
+        res.redirect('/login');
+
+    } catch (error) {
+        console.error('Error al registrar usuario:', error);
+        res.render('pages/home/registrar', {
+            errors: [{ msg: 'Ocurrió un error al registrar. Intenta más tarde.' }],
+            user: null
+        });
+    }
+}

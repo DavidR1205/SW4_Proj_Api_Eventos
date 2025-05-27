@@ -127,6 +127,49 @@ class Usuario {
             throw error;
         }
     }
+
+    static async RegistrarUsuarioIndex(usuario) {
+        try {
+            // Encriptar la contraseña antes de guardar
+            if (usuario.contrasena) {
+                usuario.contrasena = await bcrypt.hash(usuario.contrasena, 10);
+            }
+            const {
+                primer_nombre,
+                segundo_nombre,
+                primer_apellido,
+                segundo_apellido,
+                tipo_documento_usuario,
+                numero_documento_usuario,
+                fecha_nacimiento,
+                celular_usuario,
+                direccion_usuario,
+                edad_usuario,
+                correo_electronico,
+                contrasena
+            } = usuario;
+
+            const [result] = await pool.query(
+                `INSERT INTO usuarios (
+                    primer_nombre, segundo_nombre, primer_apellido, segundo_apellido,
+                    tipo_documento_usuario, numero_documento_usuario, fecha_nacimiento,
+                    celular_usuario, direccion_usuario, edad_usuario, correo_electronico,
+                    contrasena, id_rol
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 2)`,
+                [
+                    primer_nombre, segundo_nombre, primer_apellido, segundo_apellido,
+                    tipo_documento_usuario, numero_documento_usuario, fecha_nacimiento,
+                    celular_usuario, direccion_usuario, edad_usuario, correo_electronico,
+                    contrasena
+                ]
+            );
+            return result.insertId;
+        } catch (error) {
+            console.error('Error al crear el usuario:', error);
+            throw error;
+        }
+    }
 }
+
 
 module.exports = Usuario;
