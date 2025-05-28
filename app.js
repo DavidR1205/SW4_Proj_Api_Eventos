@@ -23,6 +23,7 @@ const rolRouter = require('./routes/rolRouter');
 const compraRouter = require('./routes/compraRouter');
 const ventaRouter = require('./routes/ventaRouter');
 const indexRouter = require('./routes/indexRouter');
+const carritoRouter = require('./routes/carritoRouter');
 
 
 //Usar las Cookies
@@ -47,6 +48,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use(carritoRouter);
 app.use(loginvalidator);
 
 //RUTAS DE LOGIN

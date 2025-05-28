@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const boletaModel = require('../models/boletaModel');
 const compraModel = require('../models/compraModel');
 const eventoModel = require('../models/eventoModel');
+const carritoModel = require('../models/carritoModel');
 
 exports.listar = async (req, res) => {
     try {
@@ -22,49 +23,47 @@ exports.listar = async (req, res) => {
     }
 };
 
-exports.agregarCarrito = async (req, res) => {
-    try {
-        const { id_boleta, cantidad } = req.body;
-        const boleta = await boletaModel.obtenerBoletaId(id_boleta);
+    exports.agregarCarrito = async (req, res) => {
+        try {
+            const id_usuario = req.user.id_usuario;
+            const { id_boleta, cantidad } = req.body;
 
-        if (!boleta) return res.status(404).send('Boleta no encontrada');
+            const id_carrito = await carritoModel.CrearCarritoSiNoExiste(id_usuario);
+            await carritoModel.AgregarBoletaCarrito({ id_carrito, id_boleta, cantidad: parseInt(cantidad) });
 
-        const cantidadNum = parseInt(cantidad);
-        const subtotal = boleta.precio_boleta * cantidadNum;
-        const servicio = subtotal * 0.05;
-        const total = subtotal + servicio;
-
-        const item = {
-            id_boleta: boleta.id_boleta,
-            tipo: boleta.tipo_boleta,
-            localidad: boleta.localidad_boleta,
-            precio_unitario: boleta.precio_boleta,
-            cantidad: cantidadNum,
-            subtotal,
-            servicio,
-            total
-        };
-
-        if (!req.session.carrito) {
-            req.session.carrito = [];
+            res.redirect('/carrito');
+        } catch (error) {
+            console.error('Error al agregar la compra al carrito:', error);
+            res.status(500).send('Error interno del servidor');
         }
-
-        req.session.carrito.push(item);
-
-        res.redirect('/carrito');
-    } catch (error) {
-        console.error('Error al agregar al carrito:', error);
-        res.status(500).send('Error interno');
     }
-}
 
-exports.listarCarrito = async (req, res) => {
+exports.verCarrito = async (req, res) => {
     try {
-        const carrito = req.session.carrito;
+        const id_usuario = req.user.id_usuario;
+        const id_carrito = await carritoModel.CrearCarritoSiNoExiste(id_usuario);
+        const items = await carritoModel.ObtenerItemsCarrito(id_carrito);
+
         res.render('pages/home/carrito', {
-            carrito
+            carrito: items
         });
     } catch (error) {
-        console.error('Error al agregar al carrito:', error);
+        console.error('Error al cargar el carrito:', error);
+        res.status(500).send('Error interno del servidor');
     }
-}
+};
+
+exports.eliminarItem = async (req, res) => {
+    try {
+        const id_usuario = req.user.id_usuario;
+        const { id_boleta } = req.params;
+
+        const id_carrito = await carritoModel.CrearCarritoSiNoExiste(id_usuario);
+        await carritoModel.ElminarItemCarrito(id_carrito, id_boleta);
+
+        res.redirect('/carrito')
+    } catch (error) {
+        console.error('Error al eliminar item del carrito:', error);
+        res.status(500).send('Error interno');
+    }
+};

@@ -16,7 +16,7 @@ async function initDb() {
     try {
         const connection = await pool.getConnection();
 
-         //Crear tabla artistas
+        //Crear tabla artistas
         await connection.query(`
             CREATE TABLE IF NOT EXISTS artista (
                 id_artista BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -34,7 +34,7 @@ async function initDb() {
                 direccion VARCHAR(250) NOT NULL
             )ENGINE=InnoDB;
         `);
-        
+
         await connection.query(`
             CREATE TABLE IF NOT EXISTS rol (
                 id_rol BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -98,19 +98,37 @@ async function initDb() {
         `);
 
         await connection.query(`
+            CREATE TABLE IF NOT EXISTS carrito (
+                id_carrito BIGINT AUTO_INCREMENT PRIMARY KEY,
+                fecha_creacion DATE NOT NULL,
+                id_usuario BIGINT NOT NULL,
+                FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE RESTRICT
+            )ENGINE=InnoDB;
+         `);
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS carrito_boleta (
+                id_carrito_boleta BIGINT AUTO_INCREMENT PRIMARY KEY,
+                id_carrito BIGINT NOT NULL,
+                id_boleta BIGINT NOT NULL,
+                cantidad INT NOT NULL,
+                FOREIGN KEY (id_carrito) REFERENCES carrito(id_carrito) ON DELETE RESTRICT,
+                FOREIGN KEY (id_boleta) REFERENCES boletas(id_boleta) ON DELETE RESTRICT
+            )ENGINE=InnoDB;
+         `);
+
+        await connection.query(`
             CREATE TABLE IF NOT EXISTS compra (
                 id_compra BIGINT AUTO_INCREMENT PRIMARY KEY,
                 cantidad_boletas INT NOT NULL,
                 valor_entrada FLOAT NOT NULL,
                 valor_servicio FLOAT NOT NULL,
                 valor_pago FLOAT NOT NULL,
-                id_usuario BIGINT NOT NULL,
-                id_boleta BIGINT NOT NULL,
-                FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE RESTRICT,
-                FOREIGN KEY (id_boleta) REFERENCES boletas(id_boleta) ON DELETE RESTRICT
+                id_carrito_boleta BIGINT NOT NULL,
+                FOREIGN KEY (id_carrito_boleta) REFERENCES carrito_boleta(id_carrito_boleta) ON DELETE RESTRICT
             )ENGINE=InnoDB;
          `);
-        
+
         await connection.query(`
             CREATE TABLE IF NOT EXISTS venta (
                 id_venta BIGINT AUTO_INCREMENT PRIMARY KEY,

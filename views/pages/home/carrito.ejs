@@ -1,48 +1,77 @@
 <%- include('../../partials/home/header') %>
 
     <div class="container my-5">
-        <h2>Carrito</h2>
+        <h2 class="mb-4">Carrito de Compras</h2>
 
-        <div class="container my-5">
-            <% if (carrito && carrito.length> 0) { %>
-                <table class="table table-striped">
-                    <thead>
+        <% if (carrito && carrito.length> 0) {
+            let totalGeneral = 0;
+            %>
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Evento</th>
+                        <th>Tipo</th>
+                        <th>Localidad</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                        <th>Servicio (5%)</th>
+                        <th>Total</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% carrito.forEach(item=> {
+                        const subtotal = item.precio_boleta * item.cantidad;
+                        const servicio = subtotal * 0.05;
+                        const total = subtotal + servicio;
+                        totalGeneral += total;
+                        %>
                         <tr>
-                            <th>Tipo</th>
-                            <th>Localidad</th>
-                            <th>Cantidad</th>
-                            <th>Precio Unitario</th>
-                            <th>Subtotal</th>
-                            <th>Servicio</th>
-                            <th>Total</th>
+                            <td>
+                                <%= item.nombre_evento %>
+                            </td>
+                            <td>
+                                <%= item.tipo_boleta %>
+                            </td>
+                            <td>
+                                <%= item.localidad_boleta %>
+                            </td>
+                            <td>
+                                <%= item.cantidad %>
+                            </td>
+                            <td>$<%= item.precio_boleta.toLocaleString('es-CO') %>
+                            </td>
+                            <td>$<%= subtotal.toLocaleString('es-CO') %>
+                            </td>
+                            <td>$<%= servicio.toLocaleString('es-CO') %>
+                            </td>
+                            <td><strong>$<%= total.toLocaleString('es-CO') %></strong></td>
+                            <td>
+                                <a href="/carrito/eliminar/<%= item.id_boleta %>" class="btn btn-danger btn-sm">
+                                    Eliminar
+                                </a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <% carrito.forEach(item=> { %>
-                            <tr>
-                                <td>
-                                    <%= item.tipo %>
-                                </td>
-                                <td>
-                                    <%= item.localidad %>
-                                </td>
-                                <td>
-                                    <%= item.cantidad %>
-                                </td>
-                                <td>$<%= item.precio_unitario.toLocaleString('es-CO') %>
-                                </td>
-                                <td>$<%= item.subtotal.toLocaleString('es-CO') %>
-                                </td>
-                                <td>$<%= item.servicio.toLocaleString('es-CO') %>
-                                </td>
-                                <td>$<%= item.total.toLocaleString('es-CO') %>
-                                </td>
-                            </tr>
-                            <% }) %>
-                    </tbody>
-                </table>
-                <% } else { %>
-                    <p>El carrito se encuentra vacio.</p>
-                    <% } %>
-        </div>
-        <%- include('../../partials/home/footer') %>
+                        <% }) %>
+                </tbody>
+                <tfoot>
+                    <tr class="table-secondary">
+                        <td colspan="7" class="text-end"><strong>Total General:</strong></td>
+                        <td colspan="2"><strong>$<%= totalGeneral.toLocaleString('es-CO') %></strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="text-end mt-4">
+                <a href="/compra/realizar" class="btn btn-success">Continuar a Comprar</a>
+            </div>
+
+            <% } else { %>
+                <div class="alert alert-info text-center" role="alert">
+                    El carrito está vacío. <a href="/">Ver eventos</a>
+                </div>
+                <% } %>
+    </div>
+
+    <%- include('../../partials/home/footer') %>
