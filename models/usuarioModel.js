@@ -89,9 +89,9 @@ class Usuario {
 
             const [result] = await pool.query(
                 `UPDATE usuarios SET
-                    primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?,
-                    tipo_documento_usuario = ?, numero_documento_usuario = ?, fecha_nacimiento = ?,
-                    celular_usuario = ?, direccion_usuario = ?, edad_usuario = ?, correo_electronico = ?,
+                        primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?,
+                        tipo_documento_usuario = ?, numero_documento_usuario = ?, fecha_nacimiento = ?,
+                        celular_usuario = ?, direccion_usuario = ?, edad_usuario = ?, correo_electronico = ?,
                     contrasena = ?, id_rol = ?
                 WHERE id_usuario = ?`,
                 [
@@ -169,7 +169,29 @@ class Usuario {
             throw error;
         }
     }
+    static async mostrarPerfil(req, res) {
+    try {
+        const id_usuario = req.session.user?.id_usuario;
+        if (!id_usuario) return res.redirect('/login');
+
+        const usuario = await usuarioModel.obtenerUsuarioPorId(id_usuario);
+        if (!usuario) {
+            return res.status(404).render('error', { title: 'Error', message: 'Usuario no encontrado' });
+        }
+
+        res.render('pages/home/perfil', {
+            title: 'Mi Perfil',
+            usuario,
+            errors: []
+        });
+    } catch (error) {
+        console.error('Error al cargar perfil:', error);
+        res.status(500).render('error', {
+            title: 'Error',
+            message: 'Error al cargar el perfil del usuario'
+        });
+    }
 }
 
-
+}
 module.exports = Usuario;

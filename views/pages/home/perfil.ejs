@@ -1,0 +1,41 @@
+<%- include('../../partials/home/header') %> 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Mi Perfil</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6"><strong>Primer Nombre:</strong> <%= usuario.primer_nombre %></div>
+                        <div class="col-md-6"><strong>Segundo Nombre:</strong> <%= usuario.segundo_nombre %></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6"><strong>Primer Apellido:</strong> <%= usuario.primer_apellido %></div>
+                        <div class="col-md-6"><strong>Segundo Apellido:</strong> <%= usuario.segundo_apellido %></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6"><strong>Tipo Documento:</strong> <%= usuario.tipo_documento_usuario %></div>
+                        <div class="col-md-6"><strong>Número Documento:</strong> <%= usuario.numero_documento_usuario %></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6"><strong>Fecha Nacimiento:</strong> <%= usuario.fecha_nacimiento.toISOString().split('T')[0] %></div>
+                        <div class="col-md-6"><strong>Celular:</strong> <%= usuario.celular_usuario %></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6"><strong>Dirección:</strong> <%= usuario.direccion_usuario %></div>
+                        <div class="col-md-6"><strong>Edad:</strong> <%= usuario.edad_usuario %></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12"><strong>Correo Electrónico:</strong> <%= usuario.correo_electronico %></div>
+                    </div>
+                    <div class="text-end">
+                        <a href="/" class="btn btn-secondary">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/home/footer') %>

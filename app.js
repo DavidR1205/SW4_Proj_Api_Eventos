@@ -53,11 +53,12 @@ app.use(loginvalidator);
 
 //RUTAS DE LOGIN
 app.use(loginRouter);
+//RUTAS
+
 
 // Middleware para proteger las rutas de admin(jwt)
 app.use('/admin', authValidator);
 
-//RUTAS
 app.use('/', indexRouter);
 
 //RUTAS ADMIN

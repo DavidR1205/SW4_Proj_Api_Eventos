@@ -124,3 +124,55 @@ exports.registrarUsuario = async (req, res) => {
         });
     }
 };
+
+
+
+exports.mostrarPerfil = async (req, res) => {
+    try {
+        const id_usuario = req.user?.id_usuario;
+
+        if (!id_usuario) return res.redirect('/login');
+
+        const usuario = await usuarioModel.obtenerUsuarioPorId(id_usuario);
+        if (!usuario) {
+            return res.status(404).render('error', { title: 'Error', message: 'Usuario no encontrado' });
+        }
+
+        res.render('pages/home/perfil', {
+            title: 'Mi Perfil',
+            usuario,
+            errors: []
+        });
+    } catch (error) {
+        res.status(500).render('error', {
+            title: 'Error',
+            message: 'Error al cargar el perfil'
+        });
+    }
+};
+
+exports.actualizarPerfil = async (req, res) => {
+    const id_usuario = req.user?.id_usuario;
+
+    if (!id_usuario) return res.redirect('/login');
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('pages/home/perfil', {
+            title: 'Mi Perfil',
+            usuario: { ...req.body, id_usuario },
+            errors: errors.array()
+        });
+    }
+
+    try {
+        await usuarioModel.actualizarUsuario(id_usuario, req.body);
+        res.redirect('/perfil');
+    } catch (error) {
+        res.render('pages/home/perfil', {
+            title: 'Mi Perfil',
+            usuario: { ...req.body, id_usuario },
+            errors: [{ message: 'Error al actualizar el perfil. Revise los campos.' }]
+        });
+    }
+};
