@@ -13,13 +13,13 @@ module.exports = (req, res, next) => {
             return res.redirect('/login'); // O res.status(403).send('Token inválido');
         }
 
+        if (user.rol !== 1) {
+            return res.status(403).send('Acceso denegado: solo administradores.');
+        }
+
         req.user = user;
         res.locals.user = user;
-
-         if (user.rol !== 1) {
-             return res.status(403).send('Acceso denegado: solo administradores.');
-         }
-
         next();
+
     });
 };

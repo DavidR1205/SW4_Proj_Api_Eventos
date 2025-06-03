@@ -23,20 +23,18 @@ exports.listar = async (req, res) => {
     }
 };
 
-    exports.agregarCarrito = async (req, res) => {
-        try {
-            const id_usuario = req.user.id_usuario;
-            const { id_boleta, cantidad } = req.body;
-
-            const id_carrito = await carritoModel.CrearCarritoSiNoExiste(id_usuario);
-            await carritoModel.AgregarBoletaCarrito({ id_carrito, id_boleta, cantidad: parseInt(cantidad) });
-
-            res.redirect('/carrito');
-        } catch (error) {
-            console.error('Error al agregar la compra al carrito:', error);
-            res.status(500).send('Error interno del servidor');
-        }
+exports.agregarCarrito = async (req, res) => {
+    try {
+        const id_usuario = req.user.id_usuario;
+        const { id_boleta, cantidad } = req.body;
+        const id_carrito = await carritoModel.CrearCarritoSiNoExiste(id_usuario);
+        await carritoModel.AgregarBoletaCarrito({ id_carrito, id_boleta, cantidad: parseInt(cantidad) });
+        res.redirect('/carrito');
+    } catch (error) {
+        console.error('Error al agregar la compra al carrito:', error);
+        res.status(500).send('Error interno del servidor');
     }
+};
 
 exports.verCarrito = async (req, res) => {
     try {

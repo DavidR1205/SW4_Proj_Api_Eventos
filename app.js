@@ -25,6 +25,8 @@ const ventaRouter = require('./routes/ventaRouter');
 const indexRouter = require('./routes/indexRouter');
 const carritoRouter = require('./routes/carritoRouter');
 const pagoRouter = require('./routes/pagoRouter');
+const perfilRouter = require('./routes/perfilRouter');
+const entradaRouter = require('./routes/entradaRouter');
 
 //Usar las Cookies
 app.use(cookieParser())
@@ -48,21 +50,18 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(carritoRouter);
-app.use(loginvalidator);
+//Rutas Index
 
-app.use('/pago', pagoRouter);
+app.use(loginvalidator);
+app.use(entradaRouter);
+
 //RUTAS DE LOGIN
 app.use(loginRouter);
 app.use(perfilRouter);
-app.use('/admin/usuarios', usuarioRouter);
-
+app.use(carritoRouter);
 //RUTAS
-
-
-
-
 app.use('/', indexRouter);
+app.use('/pago', pagoRouter);
 
 // Middleware para proteger las rutas de admin(jwt)
 app.use('/admin', authValidator);
