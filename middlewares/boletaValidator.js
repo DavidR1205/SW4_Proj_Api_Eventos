@@ -11,23 +11,23 @@ const validBoleta = [
         .notEmpty()
         .withMessage('Debe ingresar un precio para la boleta')
         .isFloat()
-        .withMessage('Solo se pueden ingresar datos numericos'),
+        .withMessage('Solo se pueden ingresar datos numéricos'),
 
     body('tipo_boleta')
         .notEmpty()
-        .isLength({min: 1})
+        .isLength({ min: 1 })
         .withMessage('Debe ingresar el tipo de boleta'),
 
     body('localidad_boleta')
         .notEmpty()
-        .isLength({min: 1})
+        .isLength({ min: 1 })
         .withMessage('Debe ingresar la localidad a la que pertenece la boleta'),
 
     body('num_personas')
         .notEmpty()
-        .withMessage('Debe ingresar el numero de personas que ingresa con la boleta')
+        .withMessage('Debe ingresar el número de personas que ingresan con la boleta')
         .isInt()
-        .withMessage('Solo se pueden ingresar datos numericos'),
+        .withMessage('Solo se pueden ingresar datos numéricos'),
 ];
 
 module.exports = validBoleta;
