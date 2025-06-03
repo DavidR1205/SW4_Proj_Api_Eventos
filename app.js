@@ -24,7 +24,7 @@ const compraRouter = require('./routes/compraRouter');
 const ventaRouter = require('./routes/ventaRouter');
 const indexRouter = require('./routes/indexRouter');
 const carritoRouter = require('./routes/carritoRouter');
-
+const pagoRouter = require('./routes/pagoRouter');
 
 //Usar las Cookies
 app.use(cookieParser())
@@ -51,6 +51,7 @@ app.use(session({
 app.use(carritoRouter);
 app.use(loginvalidator);
 
+app.use('/pago', pagoRouter);
 //RUTAS DE LOGIN
 app.use(loginRouter);
 
