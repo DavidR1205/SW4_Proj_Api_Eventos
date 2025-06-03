@@ -5,8 +5,6 @@ const usuarioController = require('../controllers/usuarioController');
 const compraIndexController = require('../controllers/compraIndexController');
 const loginValidator = require('../middlewares/loginValidator');
 
-//router.get('/carrito', compraIndexController.listarCarrito);
-//router.post('/comprar/agregar', compraIndexController.agregarCarrito);
 router.get('/', eventoController.listarEventosIndex);
 router.get('/:id', eventoController.showEventoIndex);
 

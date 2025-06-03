@@ -21,36 +21,10 @@ class Compra {
         }
     }
 
-    static async crearCompra(compra) {
-        try {
-            const {
-                cantidad_boletas,
-                valor_entrada,
-                valor_servicio,
-                valor_pago,
-                id_usuario,
-                id_boleta
-            } = compra;
-
-            const [result] = await pool.query(
-                `INSERT INTO compra (
-                    cantidad_boletas, valor_entrada, valor_servicio, valor_pago, id_usuario, id_boleta
-                ) VALUES (?, ?, ?, ?, ?, ?)`,
-                [cantidad_boletas, valor_entrada, valor_servicio, valor_pago, id_usuario, id_boleta]
-            );
-            return result.insertId;
-        } catch (error) {
-            console.error('Error al crear la compra:', error);
-            throw error;
-        }
-    }
-
     static async actualizarCompra(id, compra) {
         try {
             const {
                 cantidad_boletas,
-                valor_entrada,
-                valor_servicio,
                 valor_pago,
                 id_usuario,
                 id_boleta
@@ -58,9 +32,9 @@ class Compra {
 
             const [result] = await pool.query(
                 `UPDATE compra SET
-                    cantidad_boletas = ?, valor_entrada = ?, valor_servicio = ?, valor_pago = ?, id_usuario = ?, id_boleta = ?
+                    cantidad_boletas = ?, valor_pago = ?, id_usuario = ?, id_boleta = ?
                 WHERE id_compra = ?`,
-                [cantidad_boletas, valor_entrada, valor_servicio, valor_pago, id_usuario, id_boleta, id]
+                [cantidad_boletas, valor_pago, id_usuario, id_boleta]
             );
             return result.affectedRows > 0;
         } catch (error) {

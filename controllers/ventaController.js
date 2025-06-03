@@ -30,7 +30,7 @@ exports.formVenta = async (req, res) => {
     }
 };
 
-exports.agregarVenta = async (req, res) => {
+/*exports.agregarVenta = async (req, res) => {
     const errors = validationResult(req);
     const compras = await compraModel.obtenerCompras();
 
@@ -55,7 +55,7 @@ exports.agregarVenta = async (req, res) => {
             isEditing: false
         });
     }
-};
+};*/
 
 exports.editarVenta = async (req, res) => {
     try {

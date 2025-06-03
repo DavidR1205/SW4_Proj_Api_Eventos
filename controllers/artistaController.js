@@ -118,7 +118,7 @@ exports.eliminarArtista = async (req, res) => {
         if (!success) {
             return res.status(404).json({ success: false, message: 'Artista no encontrado' });
         }
-        res.redirect('/admin/artista')
+        res.redirect('/admin/artista');
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error al eliminar el Artista' });

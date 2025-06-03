@@ -33,7 +33,7 @@ exports.formCompra = async (req, res) => {
     }
 };
 
-exports.agregarCompra = async (req, res) => {
+/*exports.agregarCompra = async (req, res) => {
     const errors = validationResult(req);
     const usuarios = await usuarioModel.obtenerUsuarios();
     const boletas = await boletaModel.obtenerBoletas();
@@ -62,7 +62,7 @@ exports.agregarCompra = async (req, res) => {
             boletas
         });
     }
-};
+};*/
 
 exports.editarCompra = async (req, res) => {
     try {

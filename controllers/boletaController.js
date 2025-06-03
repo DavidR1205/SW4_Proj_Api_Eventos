@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const boletaModel = require('../models/boletaModel');
+const eventoModel = require('../models/eventoModel');
 
 exports.listarBoletas = async(req, res) => {
     try {
@@ -17,23 +18,27 @@ exports.listarBoletas = async(req, res) => {
     } 
 }
 
-exports.formBoletas = (req, res) => {
+exports.formBoletas = async (req, res) => {
+    const evento = await eventoModel.obtenerEventos();
     res.render('pages/admin/boletas/form', {
         title: 'Registrar Boleta',
         boleta: {},
         errors: [],
-        isEditing: false
+        isEditing: false,
+        evento
     });
 }
 
 exports.agregarBoleta = async (req, res) => {
     const errors = validationResult(req);
+    const evento = await eventoModel.obtenerEventos();
     if (!errors.isEmpty()) {
         return res.render('pages/admin/boletas/form', {
             title: 'Registrar Boleta',
             boleta: req.body,
             errors: errors.array(),
-            isEditing: false
+            isEditing: false,
+            evento
         });
     }
 
@@ -46,7 +51,8 @@ exports.agregarBoleta = async (req, res) => {
             title: 'Registrar Boletas',
             boletas: req.body,
             errors: [{message: 'Error al crear la boleta. Revise de nuevo los campos ingresados.'}],
-            isEditing: false
+            isEditing: false,
+            evento
         });
     }
 };
@@ -54,6 +60,7 @@ exports.agregarBoleta = async (req, res) => {
 exports.editarBoleta = async (req, res) => {
     try {
         const boleta = await boletaModel.obtenerBoletaId(req.params.id);
+        const evento = await eventoModel.obtenerEventos();
         if (!boleta) {
             return res.status(404).render('error', {
                 title: 'Error',
@@ -64,7 +71,8 @@ exports.editarBoleta = async (req, res) => {
             title: 'Editar Boleta',
             boleta,
             errors: [],
-            isEditing: true
+            isEditing: true,
+            evento
         });
     } catch (error) {
         console.error(error);
@@ -77,12 +85,14 @@ exports.editarBoleta = async (req, res) => {
 
 exports.actualizarBoleta = async (req, res) => {
     const errors = validationResult(req);
+    const evento = await eventoModel.obtenerEventos();
     if (!errors.isEmpty()) {
         return res.render('pages/admin/boletas/form', {
             title: 'Editar Boleta',
             boleta: { ...req.body, id_boleta: req.params.id},
             errors: errors.array(),
-            isEditing: true
+            isEditing: true,
+            evento
         });
     }
 
@@ -102,7 +112,8 @@ exports.actualizarBoleta = async (req, res) => {
             title: 'Editar Boleta',
             boleta: {...req.body, id: req.params.id},
             errors: [{ message: 'Error al actualizar la boleta' }],
-            isEditing: true
+            isEditing: true,
+            evento
         });
     }
 };
