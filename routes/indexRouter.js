@@ -15,6 +15,6 @@ router.get('/registrar', usuarioController.formRegistrar);
 router.post('/registrar', usuarioController.registrarUsuario);
 
 router.get('/comprar/:id', compraIndexController.listar)
-router.get('/perfil',usuarioController.mostrarPerfil);
+
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const usuarioModel = require('../models/usuarioModel');
 
+
 exports.listarUsuarios = async (req, res) => {
     try {
         const usuarios = await usuarioModel.obtenerUsuarios();
@@ -151,28 +152,44 @@ exports.mostrarPerfil = async (req, res) => {
     }
 };
 
+
+
 exports.actualizarPerfil = async (req, res) => {
-    const id_usuario = req.user?.id_usuario;
-
-    if (!id_usuario) return res.redirect('/login');
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.render('pages/home/perfil', {
-            title: 'Mi Perfil',
-            usuario: { ...req.body, id_usuario },
-            errors: errors.array()
-        });
-    }
-
     try {
-        await usuarioModel.actualizarUsuario(id_usuario, req.body);
-        res.redirect('/perfil');
-    } catch (error) {
+        const id_usuario = req.user?.id_usuario;
+
+        if (!id_usuario) {
+            return res.redirect('/login');
+        }
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const usuario = await usuarioModel.obtenerUsuarioPorId(id_usuario);
+            return res.render('pages/home/perfil', {
+                title: 'Mi Perfil',
+                usuario,
+                errors: errors.array(),
+                success: null
+            });
+        }
+
+        // Actualizar solo los datos del perfil (sin contraseña ni rol)
+        await usuarioModel.actualizarPerfilUsuario(id_usuario, req.body);
+
+        const usuarioActualizado = await usuarioModel.obtenerUsuarioPorId(id_usuario);
+
         res.render('pages/home/perfil', {
             title: 'Mi Perfil',
-            usuario: { ...req.body, id_usuario },
-            errors: [{ message: 'Error al actualizar el perfil. Revise los campos.' }]
+            usuario: usuarioActualizado,
+            errors: [],
+            success: '¡Perfil actualizado exitosamente!'
+        });
+
+    } catch (error) {
+        console.error("Error al actualizar el perfil:", error);
+        res.status(500).render('error', {
+            title: 'Error',
+            message: 'Hubo un error al actualizar el perfil del usuario.'
         });
     }
 };
