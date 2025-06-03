@@ -1,0 +1,65 @@
+<%- include('../../../partials/admin/header') %>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="ml-4"><%= title %></h2>
+        <a href="/admin/usuarios/create" class="btn btn-success mx-3">Nuevo Usuario</a>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <% if (usuarios && usuarios.length > 0) { %>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Primer Nombre</th>
+                                <th>Segundo Nombre</th>
+                                <th>Primer Apellido</th>
+                                <th>Segundo Apellido</th>
+                                <th>Tipo Doc.</th>
+                                <th>Número Doc.</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Celular</th>
+                                <th>Dirección</th>
+                                <th>Edad</th>
+                                <th>Correo</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% usuarios.forEach(usuario => { %>
+                                <tr>
+                                    <th><%= usuario.id_usuario %></th>
+                                    <td><%= usuario.primer_nombre %></td>
+                                    <td><%= usuario.segundo_nombre %></td>
+                                    <td><%= usuario.primer_apellido %></td>
+                                    <td><%= usuario.segundo_apellido %></td>
+                                    <td><%= usuario.tipo_documento_usuario %></td>
+                                    <td><%= usuario.numero_documento_usuario %></td>
+                                    <td> <%= new Date(usuario.fecha_nacimiento).toLocaleDateString('es-ES') %></td>
+                                    <td><%= usuario.celular_usuario %></td>
+                                    <td><%= usuario.direccion_usuario %></td>
+                                    <td><%= usuario.edad_usuario %></td>
+                                    <td><%= usuario.correo_electronico %></td>
+                                    <td><%= usuario.id_rol %></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/admin/usuarios/<%= usuario.id_usuario %>/edit" class="btn btn-warning btn-sm mx-1"><i class="fas fa-edit"></i></a>
+                                            <form action="/admin/usuarios/<%= usuario.id_usuario %>?_method=DELETE" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-danger btn-sm mx-0"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <p>No hay usuarios registrados.</p>
+            <% } %>
+        </div>
+    </div>
+</div>
+<%- include('../../../partials/admin/footer', { title }) %>

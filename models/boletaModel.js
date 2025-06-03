@@ -12,7 +12,7 @@ class Boleta {
 
     static async obtenerBoletaId(id) {
         try {
-            const [boletas] = await pool.query('SELECT * FROM boletas WHERE id_boleta = ?', {id});
+            const [boletas] = await pool.query('SELECT * FROM boletas WHERE id_boleta = ?', [id]);
             return boletas[0];
         } catch (error) {
             console.error('Error al obtener informacion de la Boleta por Id: ', error);
@@ -27,7 +27,7 @@ class Boleta {
                 `INSERT INTO boletas (precio_boleta, tipo_boleta, localidad_boleta, num_personas, id_evento)
                 VALUES (?, ?, ?, ?, ?)`, [precio_boleta, tipo_boleta, localidad_boleta, num_personas, id_evento]
             );
-            return result.insertId;   
+            return result.insertId;
         } catch (error) {
             console.error('Error al crear la boleta: ', error);
             throw error;
@@ -55,6 +55,19 @@ class Boleta {
             return result.affectedRows > 0;
         } catch (error) {
             console.error('Error al eliminar la Boleta: ', error);
+        }
+    }
+
+    static async obtenerBoletaEvento(id_evento) {
+        try {
+            const [boletas] = await pool.query(
+                `SELECT * FROM boletas WHERE id_evento = ?`,
+                [id_evento]
+            );
+            return boletas;
+        } catch (error) {
+            console.error('Error al obtener boletas por evento: ', error);
+            throw error;
         }
     }
 }

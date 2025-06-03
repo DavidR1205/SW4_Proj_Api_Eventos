@@ -1,52 +1,58 @@
 const { validationResult } = require('express-validator');
 const boletaModel = require('../models/boletaModel');
+const eventoModel = require('../models/eventoModel');
 
 exports.listarBoletas = async(req, res) => {
     try {
         const boletas = await boletaModel.obtenerBoletas();
-        res.json(boletas);
-        /*res.render('boletas/index', {
+        res.render('pages/admin/boletas/index', {
+            title: 'Boletas',
             boletas
-        })*/
+        })
     } catch (error) {
         console.error(error);
         res.status(500).render('error', {
             title: 'Error',
             message: 'Error al cargar las boletas'
         });       
-    }
+    } 
 }
 
-exports.formBoletas = (req, res) => {
-    res.render('boletas/form', {
+exports.formBoletas = async (req, res) => {
+    const evento = await eventoModel.obtenerEventos();
+    res.render('pages/admin/boletas/form', {
         title: 'Registrar Boleta',
         boleta: {},
         errors: [],
-        isEditing: false
+        isEditing: false,
+        evento
     });
 }
 
 exports.agregarBoleta = async (req, res) => {
     const errors = validationResult(req);
+    const evento = await eventoModel.obtenerEventos();
     if (!errors.isEmpty()) {
-        return res.render('boletas/form', {
+        return res.render('pages/admin/boletas/form', {
             title: 'Registrar Boleta',
             boleta: req.body,
             errors: errors.array(),
-            isEditing: false
+            isEditing: false,
+            evento
         });
     }
 
     try {
         await boletaModel.crearBoleta(req.body);
-        res.redirect('/boletas');
+        res.redirect('/admin/boletas');
     } catch (error) {
         console.error(error);
-        res.render('boletas/form', {
+        res.render('pages/admin/boletas/form', {
             title: 'Registrar Boletas',
             boletas: req.body,
             errors: [{message: 'Error al crear la boleta. Revise de nuevo los campos ingresados.'}],
-            isEditing: false
+            isEditing: false,
+            evento
         });
     }
 };
@@ -54,64 +60,61 @@ exports.agregarBoleta = async (req, res) => {
 exports.editarBoleta = async (req, res) => {
     try {
         const boleta = await boletaModel.obtenerBoletaId(req.params.id);
+        const evento = await eventoModel.obtenerEventos();
         if (!boleta) {
-            return res.status(404).json({message: 'Boleta no encontrada'})/*render('error', {
+            return res.status(404).render('error', {
                 title: 'Error',
                 message: 'Boleta no encontrada'
-            });*/
+            });
         }
-        res.status(200).json(boleta)
-        /*res.render('boletas/form', {
+        res.render('pages/admin/boletas/form', {
             title: 'Editar Boleta',
             boleta,
             errors: [],
-            isEditing: true
-        });*/
+            isEditing: true,
+            evento
+        });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al cargar los datos de la boleta'})
-        /*res.status(500).render('error', {
+        res.status(500).render('error', {
             title: 'Error',
             message: 'Error al cargar los datos de la boleta'
-        });*/
+        });
     }
 };
 
 exports.actualizarBoleta = async (req, res) => {
     const errors = validationResult(req);
+    const evento = await eventoModel.obtenerEventos();
     if (!errors.isEmpty()) {
-        res.status(400).json({
-            message: 'Error en la validacion',
-            errors: errors.array()
-        })
-        /*return res.render('boleta/form', {
+        return res.render('pages/admin/boletas/form', {
             title: 'Editar Boleta',
-            boleta: { ...req.body, id: req.params.id},
+            boleta: { ...req.body, id_boleta: req.params.id},
             errors: errors.array(),
-            isEditing: true
-        });*/
+            isEditing: true,
+            evento
+        });
     }
 
     try {
         const success = await boletaModel.actualizarBoleta(req.params.id, req.body);
         if (!success) {
-            return res.status(404).json({message: 'Boleta no encontrada'});
-            /*return res.status(404).render('error', {
+            return res.status(404).render('error', {
                 title: 'Error',
                 message: 'Boleta no encontrada'
-            });*/
+            });
+            
         }
-        res.status(200).json({ message: 'Boleta actualizada con exito' });
-        //res.redirect('/boletas')
+        res.redirect('/admin/boletas')
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al actualizar la boleta' });
-        /*res.render('boletas/form', {
+        res.render('pages/admin/boletas/form', {
             title: 'Editar Boleta',
             boleta: {...req.body, id: req.params.id},
             errors: [{ message: 'Error al actualizar la boleta' }],
-            idEditing: true
-        });*/
+            isEditing: true,
+            evento
+        });
     }
 };
 
@@ -121,7 +124,7 @@ exports.eliminarBoleta = async (req, res) => {
         if (!success) {
             return res.status(404).json( {success: false, message: 'Boleta no encontrada'});
         }
-        res.redirect('/boletas')
+        res.redirect('/admin/boletas')
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error al eliminar la Boleta' });

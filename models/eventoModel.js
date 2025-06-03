@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 
+
 class Evento {
     static async obtenerEventos() {
         try {
@@ -13,7 +14,7 @@ class Evento {
 
     static async obtenerEventosId(id) {
         try {
-            const [eventos] = await db.query('SELECT * FROM evento WHERE id_evento = ?', {id});
+            const [eventos] = await pool.query('SELECT * FROM evento WHERE id_evento = ?', [id]);
             return eventos[0];
         } catch (error) {
             console.error('Error al obtener informacion de los Eventos por Id: ', error);
@@ -25,14 +26,14 @@ class Evento {
         try {
             const { nombre_evento, categoria_evento, lugar_evento, ciudad_evento, departamento_evento,
                     aforo_evento, fecha_inicio_evento, fecha_fin_evento, hora_inicio_evento, hora_apertura,
-                    genero_evento, edad_minima, id_artista, id_organizador} = evento;
+                    genero_evento, edad_minima, id_artista, id_organizador, url_image_evento} = evento;
             const [result] = await pool.query(
                 `INSERT INTO evento (nombre_evento, categoria_evento, lugar_evento, ciudad_evento, departamento_evento,
                 aforo_evento, fecha_inicio_evento, fecha_fin_evento, hora_inicio_evento, hora_apertura, genero_evento,
-                edad_minima, id_artista, id_organizador) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)`,
+                edad_minima, id_artista, id_organizador, url_image_evento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? , ?, ?)`,
                 [nombre_evento, categoria_evento, lugar_evento, ciudad_evento, departamento_evento,
                     aforo_evento, fecha_inicio_evento, fecha_fin_evento, hora_inicio_evento, hora_apertura,
-                    genero_evento, edad_minima, id_artista, id_organizador]
+                    genero_evento, edad_minima, id_artista, id_organizador, url_image_evento]
             );
             return result.insertId;
         } catch (error) {
@@ -45,15 +46,15 @@ class Evento {
         try {
             const { nombre_evento, categoria_evento, lugar_evento, ciudad_evento, departamento_evento,
                 aforo_evento, fecha_inicio_evento, fecha_fin_evento, hora_inicio_evento, hora_apertura,
-                genero_evento, edad_minima, id_artista, id_organizador} = evento;
+                genero_evento, edad_minima, id_artista, id_organizador, url_image_evento} = evento;
             const [result] = await pool.query(
                 `UPDATE evento SET nombre_evento = ?, categoria_evento = ?, lugar_evento = ?, ciudad_evento = ?,
                 departamento_evento = ?, aforo_evento = ?, fecha_inicio_evento = ?, fecha_fin_evento = ?, hora_inicio_evento = ?,
-                hora_apertura = ?, genero_evento = ?, edad_minima = ?, id_artista = ?, id_organizador = ? 
+                hora_apertura = ?, genero_evento = ?, edad_minima = ?, id_artista = ?, id_organizador = ?, url_image_evento = ?
                 WHERE id_evento = ?`,
                 [nombre_evento, categoria_evento, lugar_evento, ciudad_evento, departamento_evento,
                     aforo_evento, fecha_inicio_evento, fecha_fin_evento, hora_inicio_evento, hora_apertura,
-                    genero_evento, edad_minima, id_artista, id_organizador, id]
+                    genero_evento, edad_minima, id_artista, id_organizador, url_image_evento, id]
             );
             return result.affectedRows > 0;
         } catch (error) {

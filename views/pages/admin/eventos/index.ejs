@@ -1,0 +1,71 @@
+<%- include('../../../partials/admin/header') %>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="ml-4"><%= title %></h2>
+        <a href="/admin/eventos/create" class="btn btn-success mx-3">Nuevo Evento</a>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <% if (eventos && eventos.length > 0) { %>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Lugar</th>
+                                <th>Ciudad</th>
+                                <th>Departamento</th>
+                                <th>Aforo</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Hora Inicio</th>
+                                <th>Hora Apertura</th>
+                                <th>Género</th>
+                                <th>Edad Mínima</th>
+                                <th>ID Artista</th>
+                                <th>ID Organizador</th>
+                                <th>Url</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% eventos.forEach(evento => { %>
+                                <tr>
+                                    <th><%= evento.id_evento %></th>
+                                    <td><%= evento.nombre_evento %></td>
+                                    <td><%= evento.categoria_evento %></td>
+                                    <td><%= evento.lugar_evento %></td>
+                                    <td><%= evento.ciudad_evento %></td>
+                                    <td><%= evento.departamento_evento %></td>
+                                    <td><%= evento.aforo_evento %></td>
+                                    <td><%= new Date(evento.fecha_inicio_evento).toLocaleDateString('es-ES') %></td>
+                                    <td><%= new Date(evento.fecha_fin_evento).toLocaleDateString('es-ES') %></td>
+                                    <td><%= evento.hora_inicio_evento %></td>
+                                    <td><%= evento.hora_apertura %></td>
+                                    <td><%= evento.genero_evento %></td>
+                                    <td><%= evento.edad_minima %></td>
+                                    <td><%= evento.id_artista %></td>
+                                    <td><%= evento.id_organizador %></td>
+                                    <td><%= evento.url_image_evento %></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/admin/eventos/<%= evento.id_evento %>/edit" class="btn btn-warning btn-sm mx-1"><i class="fas fa-edit"></i></a>
+                                            <form action="/admin/eventos/<%= evento.id_evento %>?_method=DELETE" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-danger btn-sm mx-0"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <p>No hay eventos registrados.</p>
+            <% } %>
+        </div>
+    </div>
+</div>
+<%- include('../../../partials/admin/footer', { title }) %>

@@ -16,7 +16,7 @@ async function initDb() {
     try {
         const connection = await pool.getConnection();
 
-         //Crear tabla artistas
+        //Crear tabla artistas
         await connection.query(`
             CREATE TABLE IF NOT EXISTS artista (
                 id_artista BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -34,7 +34,7 @@ async function initDb() {
                 direccion VARCHAR(250) NOT NULL
             )ENGINE=InnoDB;
         `);
-        
+
         await connection.query(`
             CREATE TABLE IF NOT EXISTS rol (
                 id_rol BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -57,6 +57,7 @@ async function initDb() {
                 hora_apertura TIME(0) NOT NULL,
                 genero_evento VARCHAR(200) NOT NULL,
                 edad_minima INT,
+                url_image_evento VARCHAR(255),
                 id_artista BIGINT NOT NULL,
                 id_organizador BIGINT NOT NULL,
                 FOREIGN KEY (id_artista) REFERENCES artista(id_artista) ON DELETE RESTRICT,
@@ -90,26 +91,43 @@ async function initDb() {
                 direccion_usuario VARCHAR(200) NOT NULL,
                 edad_usuario INT NOT NULL,
                 correo_electronico VARCHAR(250) NOT NULL,
-                contrasena VARCHAR(16) NOT NULL,
+                contrasena VARCHAR(100) NOT NULL,
                 id_rol BIGINT NOT NULL,
                 FOREIGN KEY (id_rol) REFERENCES rol(id_rol) ON DELETE RESTRICT
             )ENGINE=InnoDB;
         `);
 
         await connection.query(`
-            CREATE TABLE IF NOT EXISTS compra (
-                id_compra BIGINT AUTO_INCREMENT PRIMARY KEY,
-                cantidad_boletas INT NOT NULL,
-                valor_entrada FLOAT NOT NULL,
-                valor_servicio FLOAT NOT NULL,
-                valor_pago FLOAT NOT NULL,
+            CREATE TABLE IF NOT EXISTS carrito (
+                id_carrito BIGINT AUTO_INCREMENT PRIMARY KEY,
+                fecha_creacion DATE NOT NULL,
                 id_usuario BIGINT NOT NULL,
+                FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE RESTRICT
+            )ENGINE=InnoDB;
+         `);
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS carrito_boleta (
+                id_carrito_boleta BIGINT AUTO_INCREMENT PRIMARY KEY,
+                id_carrito BIGINT NOT NULL,
                 id_boleta BIGINT NOT NULL,
-                FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE RESTRICT,
+                cantidad INT NOT NULL,
+                FOREIGN KEY (id_carrito) REFERENCES carrito(id_carrito) ON DELETE RESTRICT,
                 FOREIGN KEY (id_boleta) REFERENCES boletas(id_boleta) ON DELETE RESTRICT
             )ENGINE=InnoDB;
          `);
-        
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS compra (
+                id_compra BIGINT AUTO_INCREMENT PRIMARY KEY,
+                cantidad_boletas INT NOT NULL,
+                valor_pago FLOAT NOT NULL,
+                estado_pago VARCHAR(100) NOT NULL,
+                id_usuario BIGINT NOT NULL,
+                FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE RESTRICT
+            )ENGINE=InnoDB;
+         `);
+
         await connection.query(`
             CREATE TABLE IF NOT EXISTS venta (
                 id_venta BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -118,6 +136,16 @@ async function initDb() {
                 metodo_pago VARCHAR(200),
                 id_compra BIGINT NOT NULL,
                 FOREIGN KEY (id_compra) REFERENCES compra(id_compra) ON DELETE RESTRICT
+            )ENGINE=InnoDB;
+        `);
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS entrada (
+                id_entrada BIGINT AUTO_INCREMENT PRIMARY KEY,
+                id_usuario BIGINT NOT NULL,
+                id_boleta BIGINT NOT NULL,
+                FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE RESTRICT,
+                FOREIGN KEY (id_boleta) REFERENCES boletas(id_boleta) ON DELETE RESTRICT
             )ENGINE=InnoDB;
         `);
 

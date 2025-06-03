@@ -1,0 +1,84 @@
+<%- include('../../partials/home/header') %>
+
+    <div id="carouselExampleIndicators" class="carousel slide custom-carousel" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner bg-black">
+            <div class="carousel-item active">
+                <img src="images_carousel/carousel_1.jpg" class="d-block w-90" alt="Evento animado"
+                    style="height: auto; object-fit: cover;" />
+            </div>
+            <div class="carousel-item">
+                <img src="images_carousel/carousel_2.jpg" class="d-block w-90" alt="Evento animado"
+                    style="height: auto; object-fit: cover;" />
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+
+    <div class="container my-5">
+        <% if (eventos && eventos.length> 0) { %>
+            <div class="mb-4">
+                <input type="text" id="busqueda" class="form-control" placeholder="Buscar eventos por nombre">
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                <% eventos.forEach(evento=> { %>
+                    <div class="col" data-nombre="<%= evento.nombre_evento.toLowerCase() %>">
+                        <a href="/<%= evento.id_evento %>" class="card-link">
+                            <div class="card h-100 text-center card-hover">
+                                <img src="<%= evento.url_image_evento %>" class="card-img-top" alt="Imagen del evento"
+                                    style="height: auto; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-2">
+                                        <%= evento.nombre_evento %>
+                                    </h5>
+                                    <p class="card-text mb-1"><strong>Lugar:</strong>
+                                        <%= evento.lugar_evento %>
+                                    </p>
+                                    <p class="card-text mb-1"><strong>Ciudad:</strong>
+                                        <%= evento.ciudad_evento %>
+                                    </p>
+                                    <p class="card-text mb-1"><strong>Fecha:</strong>
+                                         <%= new Date(evento.fecha_inicio_evento).toLocaleDateString('es-ES')%>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <% }) %>
+            </div>
+            <% } else { %>
+                <p>No hay eventos disponibles.</p>
+                <% } %>
+    </div>
+
+    <script>
+        //FILTRO DE BUSQUEDA
+        const inputBusqueda = document.getElementById('busqueda');
+        const tarjetas = document.querySelectorAll('.row .col');
+
+        inputBusqueda.addEventListener('input', () => {
+            const valor = inputBusqueda.value.toLowerCase();
+
+            tarjetas.forEach(col => {
+                const nombre = col.getAttribute('data-nombre');
+                const visible = nombre.includes(valor);
+                col.style.display = visible ? 'block' : 'none';
+            });
+        });
+    </script>
+
+    <%- include('../../partials/home/footer') %>

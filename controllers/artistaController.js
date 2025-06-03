@@ -5,7 +5,8 @@ const artistaModel = require('../models/artistaModel')
 exports.listarArtistas = async (req, res) => {
     try {
         const artistas = await artistaModel.obtenerArtistas();
-        res.render('artista/index', { 
+        res.render('pages/admin/artista/index', { 
+            title: "Artistas",
             artistas 
         });
     } catch (error) {
@@ -19,8 +20,8 @@ exports.listarArtistas = async (req, res) => {
 
 //Mostrar Formulario
 exports.formArtista = (req, res) => {
-    res.render('artista/form', {
-        title: 'Registrar Artista',
+    res.render('pages/admin/artista/form', {
+        title: 'Artista',
         artista: {},
         errors: [],
         isEditing: false
@@ -31,8 +32,8 @@ exports.formArtista = (req, res) => {
 exports.agregarArtista = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('artista/form', {
-            title: 'Registrar Artista',
+        return res.render('pages/admin/artista/form', {
+            title: 'Artista',
             artista: req.body,
             errors: errors.array(),
             isEditing: false
@@ -41,11 +42,11 @@ exports.agregarArtista = async (req, res) => {
 
     try {
         await artistaModel.crearArtista(req.body);
-        res.redirect('/artista');
+        res.redirect('/admin/artista');
     } catch (error) {
         console.error(error);
         res.render('artista/form', {
-            title: 'Registar Artista',
+            title: 'Artista',
             artista: req.body,
             errors: [{ message: 'Error al crear el artista. Revise de nuevo los campos ingresados.' }],
             isEditing: false
@@ -63,8 +64,8 @@ exports.editarArtista = async (req, res) => {
                 message: 'Artista no encontrado'
             });
         }
-        res.render('artista/form', {
-            title: 'Editar Artista',
+        res.render('pages/admin/artista/form', {
+            title: 'Artista',
             artista,
             errors: [],
             isEditing: true
@@ -82,8 +83,8 @@ exports.editarArtista = async (req, res) => {
 exports.actualizarArtista = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('artista/form', {
-            title: 'Editar Artista',
+        return res.render('pages/admin/artista/form', {
+            title: 'Artista',
             artista: { ...req.body, id: req.params.id},
             errors: errors.array(),
             isEditing: true
@@ -98,11 +99,11 @@ exports.actualizarArtista = async (req, res) => {
                 message: 'Artista no encontrado'
             });
         }
-        res.redirect('/artista');
+        res.redirect('/admin/artista');
     } catch (error) {
         console.error(error);
-        res.render('artista/form', {
-            title: 'Editar Artista',
+        res.render('pages/admin/artista/form', {
+            title: 'Artista',
             artista: { ...req.body, id: req.params.id },
             errors: [{ message: 'Error al actualizar el artista' }],
             isEditing: true
@@ -117,7 +118,7 @@ exports.eliminarArtista = async (req, res) => {
         if (!success) {
             return res.status(404).json({ success: false, message: 'Artista no encontrado' });
         }
-        res.redirect('/artista')
+        res.redirect('/admin/artista');
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error al eliminar el Artista' });

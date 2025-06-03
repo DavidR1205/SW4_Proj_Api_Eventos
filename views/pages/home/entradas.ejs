@@ -1,0 +1,56 @@
+<%- include('../../partials/home/header') %>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Mis Entradas</h1>
+
+        <% if (entradas.length===0) { %>
+            <div class="alert alert-info text-center">
+                No tienes entradas registradas.
+            </div>
+            <% } else { %>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Evento</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Lugar</th>
+                                <th>Ciudad</th>
+                                <th>Localidad</th>
+                                <th>Tipo de Boleta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% entradas.forEach(entrada=> { %>
+                                <tr>
+                                    <td>
+                                        <%= entrada.nombre_evento %>
+                                    </td>
+                                    <td>
+                                        <%= entrada.fecha_inicio_evento.toISOString().slice(0,10) %>
+                                    </td>
+                                    <td>
+                                        <%= entrada.hora_inicio_evento %>
+                                    </td>
+                                    <td>
+                                        <%= entrada.lugar_evento %>
+                                    </td>
+                                    <td>
+                                        <%= entrada.ciudad_evento %>
+                                    </td>
+                                    <td>
+                                        <%= entrada.localidad_boleta %>
+                                    </td>
+                                    <td>
+                                        <%= entrada.tipo_boleta %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+                <% } %>
+    </div>
+
+    <%- include('../../partials/home/footer') %>

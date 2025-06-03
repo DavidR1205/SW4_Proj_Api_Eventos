@@ -9,15 +9,21 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
     "boostrap": "^2.0.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mercadopago": "^2.7.0",
     "method-override": "^3.0.0",
+    "multer": "^2.0.0",
     "mysql2": "^3.14.0",
+    "ngrok": "^5.0.0-beta.2",
     "rest_api_eventos": "file:",
     "sequelize": "^6.37.7"
   }

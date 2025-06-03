@@ -1,0 +1,48 @@
+<%- include('../../../partials/admin/header') %>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="ml-4"><%= title %></h2>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <% if (compras && compras.length > 0) { %>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Cantidad Boletas</th>
+                                <th>Valor Pago</th>
+                                <th>Estado Pago</th>
+                                <th>ID Usuario</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% compras.forEach(compra => { %>
+                                <tr>
+                                    <th><%= compra.id_compra %></th>
+                                    <td><%= compra.cantidad_boletas %></td>
+                                    <td><%= compra.valor_pago %></td>
+                                    <td><%= compra.estado_pago %></td>
+                                    <td><%= compra.id_usuario %></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/admin/compras/<%= compra.id_compra %>/edit" class="btn btn-warning btn-sm mx-1"><i class="fas fa-edit"></i></a>
+                                            <form action="/admin/compras/<%= compra.id_compra %>?_method=DELETE" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-danger btn-sm mx-0"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <p>No hay compras registradas.</p>
+            <% } %>
+        </div>
+    </div>
+</div>
+<%- include('../../../partials/admin/footer', { title }) %>

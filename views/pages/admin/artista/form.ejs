@@ -1,0 +1,59 @@
+<%- include('../../../partials/admin/header') %>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <h4 class="mb-0">
+                            <%= isEditing ? 'Editar' : 'Registrar' %>
+                                <%= title %>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <% if (errors && errors.length> 0) { %>
+                            <div class="alert alert-danger">
+                                <h5 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Errores de
+                                    validación</h5>
+                                <ul class="mb-0">
+                                    <% errors.forEach(error=> { %>
+                                        <li>
+                                            <%= error.msg %>
+                                        </li>
+                                        <% }); %>
+                                </ul>
+                            </div>
+                        <% } %>
+
+                        <form
+                            action="<%= isEditing ? `/admin/artista/${artista.id_artista}?_method=PUT` : '/admin/artista' %>"
+                            method="post">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="nombre_artista">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre_artista"
+                                        name="nombre_artista" value="<%= artista.nombre_artista || ''  %>"
+                                        required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="genero_musical">Genero Musical</label>
+                                    <input type="text" class="form-control" id="genero_musical"
+                                        name="genero_musical" value="<%= artista.genero_musical || '' %>"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary">
+                                    <%= isEditing ? 'Actualizar' : 'Guardar' %>
+                                </button>
+                                <a href="/admin/artista" class="btn btn-secondary">
+                                    Cancelar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('../../../partials/admin/footer', { title }) %>

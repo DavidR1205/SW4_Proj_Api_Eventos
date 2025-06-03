@@ -21,7 +21,7 @@ class Venta {
         }
     }
 
-    static async crearVenta(venta) {
+    /*static async crearVenta(venta) {
         try {
             const { valor_venta, fecha_venta, metodo_pago, id_compra } = venta;
             const [result] = await pool.query(
@@ -34,7 +34,7 @@ class Venta {
             console.error('Error al crear la venta:', error);
             throw error;
         }
-    }
+    }*/
 
     static async actualizarVenta(id, venta) {
         try {

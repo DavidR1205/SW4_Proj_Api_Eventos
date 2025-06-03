@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const eventoController = require('../controllers/eventoController');
-const eventoValidator = require('../middlewares/eventoValidator');
+const { validEvento, upload} = require('../middlewares/eventoValidator');
 
 router.get('/', eventoController.listarEventos);
 router.get('/create', eventoController.formEvento);
-router.post('/', eventoValidator, eventoController.agregarEvento);
+router.post('/', upload.single('url_image_evento'), validEvento, eventoController.agregarEvento);
 router.get('/:id/edit', eventoController.editarEvento);
-router.put('/:id', eventoValidator, eventoController.actualizarEvento);
+router.put('/:id', upload.single('url_image_evento'), validEvento, eventoController.actualizarEvento);
 router.delete('/:id', eventoController.eliminarEvento);
 
 module.exports = router;
