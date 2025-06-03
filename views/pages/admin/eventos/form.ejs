@@ -1,147 +1,144 @@
-<%- include('../../../partials/admin/header') %>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-dark text-white">
-                        <h4 class="mb-0">
-                            <%= isEditing ? 'Editar' : 'Registrar' %> Evento
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <% if (errors && errors.length> 0) { %>
-                            <div class="alert alert-danger">
-                                <ul class="mb-0">
-                                    <% errors.forEach(error=> { %>
-                                        <li>
-                                            <%= error.msg || error.message %>
-                                        </li>
-                                        <% }); %>
-                                </ul>
+<%- include('../../../partials/admin/header') %> 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">
+                        <%= isEditing ? 'Editar' : 'Registrar' %> Evento
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <% if (errors && errors.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                <% errors.forEach(error => { %>
+                                    <li><%= error.msg || error.message %></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% } %>
+                    <form
+                        action="<%= isEditing ? `/admin/eventos/${evento.id_evento}?_method=PUT` : '/admin/eventos' %>"
+                        method="post" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nombre_evento">Nombre</label>
+                                <input type="text" class="form-control" id="nombre_evento" name="nombre_evento"
+                                    value="<%= evento.nombre_evento || '' %>" required>
                             </div>
-                            <% } %>
-                                <form
-                                    action="<%= isEditing ? `/admin/eventos/${evento.id_evento}?_method=PUT` : '/admin/eventos' %>"
-                                    method="post" enctype="multipart/form-data">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="nombre_evento">Nombre</label>
-                                            <input type="text" class="form-control" id="nombre_evento"
-                                                name="nombre_evento" value="<%= evento.nombre_evento || '' %>" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="categoria_evento">Categoría</label>
-                                            <input type="text" class="form-control" id="categoria_evento"
-                                                name="categoria_evento" value="<%= evento.categoria_evento || '' %>"
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="lugar_evento">Lugar</label>
-                                            <input type="text" class="form-control" id="lugar_evento"
-                                                name="lugar_evento" value="<%= evento.lugar_evento || '' %>" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="ciudad_evento">Ciudad</label>
-                                            <input type="text" class="form-control" id="ciudad_evento"
-                                                name="ciudad_evento" value="<%= evento.ciudad_evento || '' %>" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="departamento_evento">Departamento</label>
-                                            <input type="text" class="form-control" id="departamento_evento"
-                                                name="departamento_evento"
-                                                value="<%= evento.departamento_evento || '' %>" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="aforo_evento">Aforo</label>
-                                            <input type="number" class="form-control" id="aforo_evento"
-                                                name="aforo_evento" value="<%= evento.aforo_evento || '' %>" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="fecha_inicio_evento">Fecha Inicio</label>
-                                            <input type="date" class="form-control" id="fecha_inicio_evento"
-                                                name="fecha_inicio_evento"
-                                                value="<%= evento.fecha_inicio_evento || '' %>" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="fecha_fin_evento">Fecha Fin</label>
-                                            <input type="date" class="form-control" id="fecha_fin_evento"
-                                                name="fecha_fin_evento" value="<%= evento.fecha_fin_evento || '' %>">
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="hora_inicio_evento">Hora Inicio</label>
-                                            <input type="time" class="form-control" id="hora_inicio_evento"
-                                                name="hora_inicio_evento" value="<%= evento.hora_inicio_evento || '' %>"
-                                                required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="hora_apertura">Hora Apertura</label>
-                                            <input type="time" class="form-control" id="hora_apertura"
-                                                name="hora_apertura" value="<%= evento.hora_apertura || '' %>" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="genero_evento">Género</label>
-                                            <input type="text" class="form-control" id="genero_evento"
-                                                name="genero_evento" value="<%= evento.genero_evento || '' %>" required>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="edad_minima">Edad Mínima</label>
-                                            <input type="number" class="form-control" id="edad_minima"
-                                                name="edad_minima" value="<%= evento.edad_minima || '' %>">
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="id_artista">Artista</label>
-                                            <select class="form-control" id="id_artista" name="id_artista" required>
-                                                <option value="">Seleccione un artista</option>
-                                                <% artista.forEach(artistas=> { %>
-                                                    <option value="<%= artistas.id_artista %>"
-                                                        <%=evento.id_artista==artistas.id_artista ? 'selected' : '' %>>
-                                                        <%= artistas.nombre_artista %>
-                                                    </option>
-                                                    <% }) %>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="id_organizador">Organizador</label>
-                                            <select class="form-control" id="id_organizador" name="id_organizador"
-                                                required>
-                                                <option value="">Seleccione un organizador</option>
-                                                <% organizador.forEach(o=> { %>
-                                                    <option value="<%= o.id_organizador %>"
-                                                        <%=evento.id_organizador==o.id_organizador ? 'selected' : '' %>>
-                                                        <%= o.nombre_organizador %>
-                                                    </option>
-                                                    <% }) %>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="url_image_evento">Imagen del Evento</label>
-                                        <input type="file" class="form-control-file" id="url_image_evento"
-                                            name="url_image_evento" accept="image/*"
-                                            value="<%= evento.url_image_evento %>">
-                                    </div>
-                                    <div class="form-group d-flex justify-content-between">
-                                        <button type="submit" class="btn btn-primary">
-                                            <%= isEditing ? 'Actualizar' : 'Guardar' %>
-                                        </button>
-                                        <a href="/admin/eventos" class="btn btn-secondary">Cancelar</a>
-                                    </div>
-                                </form>
-                    </div>
+                            <div class="form-group col-md-6">
+                                <label for="categoria_evento">Categoría</label>
+                                <input type="text" class="form-control" id="categoria_evento" name="categoria_evento"
+                                    value="<%= evento.categoria_evento || '' %>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="lugar_evento">Lugar</label>
+                                <input type="text" class="form-control" id="lugar_evento" name="lugar_evento"
+                                    value="<%= evento.lugar_evento || '' %>" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="ciudad_evento">Ciudad</label>
+                                <input type="text" class="form-control" id="ciudad_evento" name="ciudad_evento"
+                                    value="<%= evento.ciudad_evento || '' %>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="departamento_evento">Departamento</label>
+                                <input type="text" class="form-control" id="departamento_evento" name="departamento_evento"
+                                    value="<%= evento.departamento_evento || '' %>" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="aforo_evento">Aforo</label>
+                                <input type="number" class="form-control" id="aforo_evento" name="aforo_evento"
+                                    value="<%= evento.aforo_evento || '' %>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="fecha_inicio_evento">Fecha Inicio</label>
+                                <input type="date" class="form-control" id="fecha_inicio_evento" name="fecha_inicio_evento"
+                                    value="<%= evento.fecha_inicio_evento ? new Date(evento.fecha_inicio_evento).toISOString().split('T')[0] : '' %>" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fecha_fin_evento">Fecha Fin</label>
+                                <input type="date" class="form-control" id="fecha_fin_evento" name="fecha_fin_evento"
+                                    value="<%= evento.fecha_fin_evento ? new Date(evento.fecha_fin_evento).toISOString().split('T')[0] : '' %>">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="hora_inicio_evento">Hora Inicio</label>
+                                <input type="time" class="form-control" id="hora_inicio_evento" name="hora_inicio_evento"
+                                    value="<%= evento.hora_inicio_evento || '' %>" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="hora_apertura">Hora Apertura</label>
+                                <input type="time" class="form-control" id="hora_apertura" name="hora_apertura"
+                                    value="<%= evento.hora_apertura || '' %>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="genero_evento">Género</label>
+                                <input type="text" class="form-control" id="genero_evento" name="genero_evento"
+                                    value="<%= evento.genero_evento || '' %>" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="edad_minima">Edad Mínima</label>
+                                <input type="number" class="form-control" id="edad_minima" name="edad_minima"
+                                    value="<%= evento.edad_minima || '' %>">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="id_artista">Artista</label>
+                                <select class="form-control" id="id_artista" name="id_artista" required>
+                                    <option value="">Seleccione un artista</option>
+                                    <% artista.forEach(artistas => { %>
+                                        <option value="<%= artistas.id_artista %>" <%= evento.id_artista == artistas.id_artista ? 'selected' : '' %>>
+                                            <%= artistas.nombre_artista %>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="id_organizador">Organizador</label>
+                                <select class="form-control" id="id_organizador" name="id_organizador" required>
+                                    <option value="">Seleccione un organizador</option>
+                                    <% organizador.forEach(o => { %>
+                                        <option value="<%= o.id_organizador %>" <%= evento.id_organizador == o.id_organizador ? 'selected' : '' %>>
+                                            <%= o.nombre_organizador %>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="url_image_evento">Imagen del Evento</label>
+                            <input type="file" class="form-control-file" id="url_image_evento" name="url_image_evento" accept="image/*">
+                        </div>
+
+                        <div class="form-group d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <%= isEditing ? 'Actualizar' : 'Guardar' %>
+                            </button>
+                            <a href="/admin/eventos" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <%- include('../../../partials/admin/footer', { title }) %>
+</div>
+<%- include('../../../partials/admin/footer', { title }) %>
