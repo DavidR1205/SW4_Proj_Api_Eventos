@@ -121,11 +121,10 @@ async function initDb() {
             CREATE TABLE IF NOT EXISTS compra (
                 id_compra BIGINT AUTO_INCREMENT PRIMARY KEY,
                 cantidad_boletas INT NOT NULL,
-                valor_entrada FLOAT NOT NULL,
-                valor_servicio FLOAT NOT NULL,
                 valor_pago FLOAT NOT NULL,
-                id_carrito_boleta BIGINT NOT NULL,
-                FOREIGN KEY (id_carrito_boleta) REFERENCES carrito_boleta(id_carrito_boleta) ON DELETE RESTRICT
+                estado_pago VARCHAR(100) NOT NULL,
+                id_usuario BIGINT NOT NULL,
+                FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE RESTRICT
             )ENGINE=InnoDB;
          `);
 
@@ -137,6 +136,16 @@ async function initDb() {
                 metodo_pago VARCHAR(200),
                 id_compra BIGINT NOT NULL,
                 FOREIGN KEY (id_compra) REFERENCES compra(id_compra) ON DELETE RESTRICT
+            )ENGINE=InnoDB;
+        `);
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS entrada (
+                id_entrada BIGINT AUTO_INCREMENT PRIMARY KEY,
+                id_usuario BIGINT NOT NULL,
+                id_boleta BIGINT NOT NULL,
+                FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE RESTRICT,
+                FOREIGN KEY (id_boleta) REFERENCES boletas(id_boleta) ON DELETE RESTRICT
             )ENGINE=InnoDB;
         `);
 

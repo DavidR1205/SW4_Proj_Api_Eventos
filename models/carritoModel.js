@@ -77,6 +77,28 @@ class Carrito {
             [id_carrito]
         );
     }
+
+    static async ObtenerCarritoUsuario(idUsuario) {
+        try {
+            const [rows] = await pool.query(`
+                SELECT 
+                c.id_boleta,
+                c.cantidad,
+                b.precio_boleta,
+                b.tipo_boleta,
+                b.localidad_boleta,
+                e.nombre_evento
+            FROM carrito c
+            INNER JOIN boleta b ON c.id_boleta = b.id_boleta
+            INNER JOIN evento e ON b.id_evento = e.id_evento
+            WHERE c.id_usuario = ?`, [idUsuario]);
+
+            return rows;
+        } catch (error) {
+            console.error('Error obteniendo carrito:', error);
+            return [];
+        }
+    }
 }
 
 module.exports = Carrito;
