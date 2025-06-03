@@ -54,12 +54,18 @@ app.use(loginvalidator);
 app.use('/pago', pagoRouter);
 //RUTAS DE LOGIN
 app.use(loginRouter);
+app.use(perfilRouter);
+app.use('/admin/usuarios', usuarioRouter);
+
+//RUTAS
+
+
+
+
+app.use('/', indexRouter);
 
 // Middleware para proteger las rutas de admin(jwt)
 app.use('/admin', authValidator);
-
-//RUTAS
-app.use('/', indexRouter);
 
 //RUTAS ADMIN
 app.use('/admin/artista', artistaRouter);

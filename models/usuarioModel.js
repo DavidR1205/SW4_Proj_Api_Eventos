@@ -89,9 +89,9 @@ class Usuario {
 
             const [result] = await pool.query(
                 `UPDATE usuarios SET
-                    primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?,
-                    tipo_documento_usuario = ?, numero_documento_usuario = ?, fecha_nacimiento = ?,
-                    celular_usuario = ?, direccion_usuario = ?, edad_usuario = ?, correo_electronico = ?,
+                        primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?,
+                        tipo_documento_usuario = ?, numero_documento_usuario = ?, fecha_nacimiento = ?,
+                        celular_usuario = ?, direccion_usuario = ?, edad_usuario = ?, correo_electronico = ?,
                     contrasena = ?, id_rol = ?
                 WHERE id_usuario = ?`,
                 [
@@ -169,7 +169,45 @@ class Usuario {
             throw error;
         }
     }
+    static async actualizarPerfilUsuario(id, usuario) {
+    try {
+        const {
+            primer_nombre,
+            segundo_nombre,
+            primer_apellido,
+            segundo_apellido,
+            tipo_documento_usuario,
+            numero_documento_usuario,
+            fecha_nacimiento,
+            celular_usuario,
+            direccion_usuario,
+            edad_usuario,
+            correo_electronico
+        } = usuario;
+
+        const [result] = await pool.query(
+            `UPDATE usuarios SET
+                primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?,
+                tipo_documento_usuario = ?, numero_documento_usuario = ?, fecha_nacimiento = ?,
+                celular_usuario = ?, direccion_usuario = ?, edad_usuario = ?, correo_electronico = ?
+             WHERE id_usuario = ?`,
+            [
+                primer_nombre, segundo_nombre, primer_apellido, segundo_apellido,
+                tipo_documento_usuario, numero_documento_usuario, fecha_nacimiento,
+                celular_usuario, direccion_usuario, edad_usuario, correo_electronico,
+                id
+            ]
+        );
+
+        return result.affectedRows > 0;
+    } catch (error) {
+        console.error('Error al actualizar el perfil del usuario:', error);
+        throw error;
+    }
 }
 
+    
 
+
+}
 module.exports = Usuario;
