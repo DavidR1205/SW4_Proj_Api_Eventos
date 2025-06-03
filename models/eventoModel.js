@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 
+
 class Evento {
     static async obtenerEventos() {
         try {

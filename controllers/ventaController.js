@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator');
 const ventaModel = require('../models/ventaModel');
+const compraModel = require('../models/compraModel'); 
+
 
 exports.listarVentas = async (req, res) => {
     try {
@@ -13,21 +15,30 @@ exports.listarVentas = async (req, res) => {
     }
 };
 
-exports.formVenta = (req, res) => {
-    res.render('pages/admin/ventas/form', {
-        title: 'Venta',
-        venta: {},
-        errors: [],
-        isEditing: false
-    });
+exports.formVenta = async (req, res) => {
+    try {
+        const compras = await compraModel.obtenerCompras();
+        res.render('pages/admin/ventas/form', {
+            title: 'Venta',
+            venta: {},
+            compras,
+            errors: [],
+            isEditing: false
+        });
+    } catch (error) {
+        res.status(500).render('error', { title: 'Error', message: 'Error al cargar el formulario' });
+    }
 };
 
 exports.agregarVenta = async (req, res) => {
     const errors = validationResult(req);
+    const compras = await compraModel.obtenerCompras();
+
     if (!errors.isEmpty()) {
         return res.render('pages/admin/ventas/form', {
             title: 'Venta',
             venta: req.body,
+            compras,
             errors: errors.array(),
             isEditing: false
         });
@@ -39,6 +50,7 @@ exports.agregarVenta = async (req, res) => {
         res.render('pages/admin/ventas/form', {
             title: 'Venta',
             venta: req.body,
+            compras,
             errors: [{ message: 'Error al crear la venta. Revise los campos.' }],
             isEditing: false
         });
@@ -48,12 +60,15 @@ exports.agregarVenta = async (req, res) => {
 exports.editarVenta = async (req, res) => {
     try {
         const venta = await ventaModel.obtenerVentaPorId(req.params.id);
+        const compras = await compraModel.obtenerCompras();
+
         if (!venta) {
             return res.status(404).render('error', { title: 'Error', message: 'Venta no encontrada' });
         }
         res.render('pages/admin/ventas/form', {
             title: 'Venta',
             venta,
+            compras,
             errors: [],
             isEditing: true
         });
@@ -64,10 +79,13 @@ exports.editarVenta = async (req, res) => {
 
 exports.actualizarVenta = async (req, res) => {
     const errors = validationResult(req);
+    const compras = await compraModel.obtenerCompras();
+
     if (!errors.isEmpty()) {
         return res.render('pages/admin/ventas/form', {
             title: 'Venta',
             venta: { ...req.body, id_venta: req.params.id },
+            compras,
             errors: errors.array(),
             isEditing: true
         });
@@ -82,6 +100,7 @@ exports.actualizarVenta = async (req, res) => {
         res.render('pages/admin/ventas/form', {
             title: 'Venta',
             venta: { ...req.body, id_venta: req.params.id },
+            compras,
             errors: [{ message: 'Error al actualizar la venta' }],
             isEditing: true
         });
